@@ -1,0 +1,6 @@
+[submodule "Mara"]
+	path = Mara
+	url = https://github.com/TraduSquare/Mara
+[submodule "Avalonia.GIF"]
+	path = Avalonia.GIF
+	url = https://github.com/AvaloniaUI/Avalonia.GIF
