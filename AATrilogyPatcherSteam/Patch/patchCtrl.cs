@@ -109,15 +109,16 @@ namespace AATrilogyPatcherSteam.Patch
         // basado en https://github.com/Darkmet98/OkamiPatcher/blob/main/OkamiPatcher/Controllers/SteamController.cs
 
         private static string steamPath = MainWindowViewModel.steamGamePath;
-        private static string url = "https://github.com/CTPache/ParcheadorAAT/releases/latest/download/Patch.zip";
+        private static string url = "";
         private static Main patchProcess;
         private static string downloadPath = $"{Directory.GetCurrentDirectory()}{Path.DirectorySeparatorChar}Patch.zip";
         public static (int, string) PatchProcess()
         {
-            /*if (!DownloadPatch())
+            var downloadPatch = DownloadPatch();
+            if (!downloadPatch.Item1)
             {
-                return 2;
-            }*/
+                return ((int)MainWindowViewModel.ErrorCodes.DownloadError, downloadPatch.Item2);
+            }
 
             var extractPatch = ExtractPatch();
             if (!extractPatch.Item1)
