@@ -12,6 +12,7 @@
     <AvaloniaResource Include="Assets\img\*.ico" />
     <EmbeddedResource Include="Assets\img\*.gif" />
     <None Remove=".gitignore" />
+    <None Include="..\.editorconfig" Link=".editorconfig" />
     <None Include="Assets\icon.png">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
