@@ -45,7 +45,7 @@ Si necesitas soporte más allá de lo que hay aquí escrito, escribe en el canal
 ## Créditos del parche
 - **Dirección:** [JauCR](https://github.com/JauCR/)<br/>
 - **Edición de gráficos:** [JauCR](https://github.com/JauCR/), MF5K<br/>
-- **Romhacking:** [CTPache](https://github.com/CTPache), [Worst Aqua Player](https://github.com/WorstAquaPlayer), Kaplas, Dant (del proyecto Судебный поворот)<br/>
+- **Romhacking:** [CTPache](https://github.com/CTPache), [Worst Aqua Player](https://github.com/WorstAquaPlayer), Kaplas, Dant (del proyecto [Судебный поворот](https://gamecom.neocities.org/Ace_Attorney/Translations/Sudebnyy_povorot_Trilogiya_Steam/))<br/>
 - **Testeo:** [CTPache](https://github.com/CTPache), franciskirk, [Worst Aqua Player](https://github.com/WorstAquaPlayer)<br/>
 - **Agradecimientos especiales:** Retroductor, roli 300, LegendaryX77, Dj_Mike238 (del grupo DragonPunk Team), el grupo Jacutem Sabão, a TraduSquare y a CAPCOM por la traducción original de DS.
 
