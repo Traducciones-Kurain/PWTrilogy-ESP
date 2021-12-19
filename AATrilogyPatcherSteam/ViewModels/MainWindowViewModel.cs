@@ -1,3 +1,6 @@
+using Avalonia.Threading;
+using System;
+using System.Diagnostics;
 using System.IO;
 using System.Reactive;
 using System.Threading.Tasks;
@@ -6,7 +9,7 @@ using ReactiveUI;
 
 namespace AATrilogyPatcherSteam.ViewModels
 {
-    public class MainWindowViewModel : ViewModelBase
+    public class MainWindowViewModel : ViewModelBase, ICloseWindows
     {
         public static string steamGamePath { get; set; }
 
@@ -51,6 +54,8 @@ namespace AATrilogyPatcherSteam.ViewModels
             get => _patchingVisible;
             set => this.RaiseAndSetIfChanged(ref _patchingVisible, value);
         }
+
+        private bool updateMode;
 
         public ReactiveCommand<Unit, Unit> findPath { get; }
         public ReactiveCommand<Unit, Unit> startPatch { get; }
@@ -103,21 +108,41 @@ namespace AATrilogyPatcherSteam.ViewModels
 
         async Task StartPatch()
         {
-            await ApplyingPatch();
-            await PatchingProcess();
+            updateMode = false;
+
+            await ApplyingPatch(updateMode);
+            await PatchingProcess(updateMode);
         }
 
-        async Task ApplyingPatch()
+        public async Task StartUpdatePatch()
         {
+            updateMode = true;
+
+            if (SteamKeyExists())
+            {
+                steamPath = steamGamePath;
+                await ApplyingPatch(updateMode);
+                await PatchingProcess(updateMode);
+            }
+        }
+
+        async Task ApplyingPatch(bool isUpdate)
+        {
+            string applyingWindow = $"{assetsImgPath}/ventana_apl.png";
+            if (isUpdate)
+                applyingWindow = $"{assetsImgPath}/ventana_apl_up.png";
+
             await Task.Run(() =>
             {
                 patchVisible = false;
                 patchingVisible = true;
-                PlaySource = $"{assetsImgPath}/ventana_apl.png";
+                PlaySource = applyingWindow;
             });
         }
 
-        async Task PatchingProcess()
+        public Action Close { get; set; }
+
+        async Task PatchingProcess(bool isUpdate)
         {
             await Task.Run(() =>
             {
@@ -126,11 +151,17 @@ namespace AATrilogyPatcherSteam.ViewModels
                 {
                     FailedPatch(patchResult.Item1, patchResult.Item2);
                 }
-                else
+                else if (!isUpdate)
                 {
                     patchingVisible = false;
                     aceptarVisible = true;
                     PlaySource = $"{assetsImgPath}/ventana_exito.png";
+                }
+                else if (isUpdate)
+                {
+                    Process.Start("explorer", "steam://rungameid/787480");
+
+                    Dispatcher.UIThread.InvokeAsync(Close);
                 }
             });
         }
@@ -182,5 +213,10 @@ namespace AATrilogyPatcherSteam.ViewModels
             ExtractError = 2,
             PatchError = 3
         }
+    }
+
+    interface ICloseWindows
+    {
+        Action Close { get; set; }
     }
 }

@@ -106,6 +106,8 @@ namespace AATrilogyPatcherSteam.Patch
 
     class Patch
     {
+        public static bool updateMode;
+
         // basado en https://github.com/Darkmet98/OkamiPatcher/blob/main/OkamiPatcher/Controllers/SteamController.cs
 
         private static string steamPath = MainWindowViewModel.steamGamePath;

@@ -21,6 +21,16 @@ namespace AATrilogyPatcherSteam.Views
 #endif
         }
 
+        public void UpdateMode(bool isUpdate)
+        {
+            if (isUpdate)
+            {
+                var patchWindow = new PatchWindow();
+                patchWindow.UpdateMode(true);
+                mainGrid.Children.Add(patchWindow);
+            }
+        }
+
         private void InitializeComponent()
         {
             AvaloniaXamlLoader.Load(this);
@@ -62,7 +72,10 @@ namespace AATrilogyPatcherSteam.Views
 
             if (Application.Current.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime lifetime)
             {
-                Sound.soundCtrl.audioPlayback.Dispose();
+                if (Sound.soundCtrl.audioPlayback != null)
+                {
+                    Sound.soundCtrl.audioPlayback.Dispose();
+                }
 
                 lifetime.Shutdown();
             }

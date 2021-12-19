@@ -17,10 +17,26 @@ namespace AATrilogyPatcherSteam
         {
             if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             {
-                desktop.MainWindow = new MainWindow
+                bool isUpdate = false;
+
+                for (int i = 0; i < Program.launchArgs.Length; i++)
                 {
-                    DataContext = new MainWindowViewModel(),
-                };
+                    if (Program.launchArgs[i] == "-u")
+                        isUpdate = true;
+                }
+
+                var mainWindow = new MainWindow();
+                mainWindow.UpdateMode(isUpdate);
+
+                var mainWindowViewModel = new MainWindowViewModel();
+                if (isUpdate)
+                {
+                    mainWindowViewModel.StartUpdatePatch();
+                }
+
+                mainWindow.DataContext = mainWindowViewModel;
+
+                desktop.MainWindow = mainWindow;
             }
 
             base.OnFrameworkInitializationCompleted();
