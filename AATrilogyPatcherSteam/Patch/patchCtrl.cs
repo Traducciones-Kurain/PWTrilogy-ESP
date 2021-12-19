@@ -114,10 +114,13 @@ namespace AATrilogyPatcherSteam.Patch
         private static string downloadPath = $"{Directory.GetCurrentDirectory()}{Path.DirectorySeparatorChar}Patch-Steam.zip";
         public static (int, string) PatchProcess()
         {
-            var downloadPatch = DownloadPatch();
-            if (!downloadPatch.Item1)
+            if (!File.Exists(downloadPath))
             {
-                return ((int)MainWindowViewModel.ErrorCodes.DownloadError, downloadPatch.Item2);
+                var downloadPatch = DownloadPatch();
+                if (!downloadPatch.Item1)
+                {
+                    return ((int)MainWindowViewModel.ErrorCodes.DownloadError, downloadPatch.Item2);
+                }
             }
 
             var extractPatch = ExtractPatch();
