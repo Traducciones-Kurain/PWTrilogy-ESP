@@ -35,6 +35,7 @@ namespace AATrilogyPatcherSteam.Views
         private void CreditosClick(object sender, RoutedEventArgs e)
         {
             Sound.soundCtrl.PlaySound(AATrilogyPatcherSteam.Resources.se001);
+            Process.Start("explorer", "https://github.com/Traducciones-Kurain/AATrilogy-2019-ESP/blob/master/CREDITOS.md");
         }
 
         private void DiscordClick(object sender, RoutedEventArgs e)
@@ -49,7 +50,6 @@ namespace AATrilogyPatcherSteam.Views
                     string rawInviteUrl = "https://raw.githubusercontent.com/Traducciones-Kurain/AATrilogy-2019-ESP/master/invite.txt";
                     string discordInvite = client.DownloadString(rawInviteUrl);
 
-                    Debug.WriteLine(discordInvite);
                     Process.Start("explorer", discordInvite);
                 }
             }
