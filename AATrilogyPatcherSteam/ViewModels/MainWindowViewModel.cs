@@ -81,7 +81,7 @@ namespace AATrilogyPatcherSteam.ViewModels
             }
             else
             {
-                PlaySource = $"{assetsImgPath}/ventana_error_0.png";
+                PlaySource = $"{assetsImgPath}/ventana_error_steam.png";
                 aceptarVisible = true;
                 errorVisible = true;
             }
@@ -157,8 +157,20 @@ namespace AATrilogyPatcherSteam.ViewModels
 
             if (ErrorMessage != string.Empty)
             {
-                var errorLogFile = $"{Directory.GetCurrentDirectory()}{Path.DirectorySeparatorChar}ErrorLog.txt";
+                switch (ErrorCode)
+                {
+                    case (int)ErrorCodes.DownloadError:
+                        PlaySource = $"{assetsImgPath}/ventana_error_descarga.png";
+                        break;
+                    case (int)ErrorCodes.ExtractError:
+                        PlaySource = $"{assetsImgPath}/ventana_error_extraer.png";
+                        break;
+                    case (int)ErrorCodes.PatchError:
+                        PlaySource = $"{assetsImgPath}/ventana_error_aplicar.png";
+                        break;
+                }
 
+                var errorLogFile = $"{Directory.GetCurrentDirectory()}{Path.DirectorySeparatorChar}ErrorLog.txt";
                 File.WriteAllText(errorLogFile, ErrorMessage);
             }
         }
