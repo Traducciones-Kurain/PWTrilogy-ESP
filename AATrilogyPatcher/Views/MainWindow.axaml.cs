@@ -45,7 +45,7 @@ namespace AATrilogyPatcher.Views
         private void CreditosClick(object sender, RoutedEventArgs e)
         {
             Sound.soundCtrl.PlaySound(AATrilogyPatcher.Resources.se001);
-            Process.Start("explorer", "https://github.com/Traducciones-Kurain/AATrilogy-2019-ESP/blob/master/CREDITOS.md");
+            Process.Start("explorer", "https://github.com/Traducciones-Kurain/AATrilogy-2019-ESP/blob/master/README.md#cr%C3%A9ditos");
         }
 
         private void DiscordClick(object sender, RoutedEventArgs e)
