@@ -170,6 +170,7 @@ namespace AATrilogyPatcherSteam.ViewModels
                         break;
                 }
 
+                aceptarVisible = true;
                 var errorLogFile = $"{Directory.GetCurrentDirectory()}{Path.DirectorySeparatorChar}ErrorLog.txt";
                 File.WriteAllText(errorLogFile, ErrorMessage);
             }
