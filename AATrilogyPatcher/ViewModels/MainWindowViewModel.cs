@@ -202,7 +202,7 @@ namespace AATrilogyPatcher.ViewModels
                 }
 
                 aceptarVisible = true;
-                var errorLogFile = $"{Directory.GetCurrentDirectory()}{Path.DirectorySeparatorChar}ErrorLog.txt";
+                var errorLogFile = $"{Directory.GetCurrentDirectory()}{Path.DirectorySeparatorChar}error.log";
                 File.WriteAllText(errorLogFile, ErrorMessage);
             }
         }
