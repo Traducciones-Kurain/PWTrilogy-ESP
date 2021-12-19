@@ -46,8 +46,7 @@ namespace AATrilogyPatcherSteam.Views
             {
                 using (WebClient client = new WebClient())
                 {
-                    // test url
-                    string rawInviteUrl = "https://raw.githubusercontent.com/WorstAquaPlayer/test123/main/texto%20test.txt";
+                    string rawInviteUrl = "https://raw.githubusercontent.com/Traducciones-Kurain/AATrilogy-2019-ESP/master/invite.txt";
                     string discordInvite = client.DownloadString(rawInviteUrl);
 
                     Debug.WriteLine(discordInvite);
