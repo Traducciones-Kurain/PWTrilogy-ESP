@@ -19,7 +19,7 @@
   </Design.DataContext>
 
   <Grid Name="MainGrid">
-    <Grid ShowGridLines="True">
+    <Grid>
       <Grid.RowDefinitions>
         <RowDefinition Height="518"/>
         <RowDefinition Height="*"/>
