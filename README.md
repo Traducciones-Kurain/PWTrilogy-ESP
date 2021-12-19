@@ -8,18 +8,18 @@ Parcheador de Ace Attorney Trilogy (2019) al español. El idioma se inserta como
 ![imagen](https://user-images.githubusercontent.com/25833407/146673825-467c390c-1139-4958-a696-52602c2a3e2b.png)
 
 ### IMPORTANTE
-- El parcheador solamente funciona en Windows, ya que usa el registro de Windows para buscar el juego y por el uso de una biblioteca/librería exclusiva a Windows (NAudio). Si utilizas otro sistema operativo tendrás que modificar el código. Se admiten pull requests de soporte para otros sistemas operativos.
-- Una vez el parche esté aplicado, tienes que ir a los ajustes y cambiar el idioma desde ahí (Será el último de la lista).
+- El parcheador solamente funciona en Windows, ya que usa el registro de Windows para buscar el juego y por el uso de una biblioteca/librería exclusiva a Windows (NAudio). Se admiten pull requests de soporte para otros sistemas operativos.
+- Una vez el parche esté aplicado, tienes que ir a los ajustes y cambiar el idioma desde ahí (será el último de la lista).
 - En el caso de querer mover la instalación del juego, se recomienda primero moverla con la herramienta de Steam, y a continuación comprobar que no haya quedado nada en la ubicación anterior. Si queda algo, se puede cortar y pegar.
 - Se recomienda hacer lo mismo si se quiere desinstalar el juego, primero desinstalarlo desde Steam y a continuación eliminar el directorio del juego de forma manual.
 
 ## Instrucciones
 1. [Descargar el parcheador de la última release.](https://github.com/Traducciones-Kurain/AATrilogy-2019-ESP/releases/latest/download/AATrilogyPatcher.exe)
-2. Presionar el botón de Parchear.
+2. Presionar el botón "Parchear".
 3. Se abrirá una ventana que mostrara donde se va a aplicar el parche. Este directorio no puede ser modificado, ya que este proviene de donde Steam dice que ha instalado el juego.
-4. Darle al botón de Si y esperar a que se descargue y aplique el parche.<br/>
-4.1. Si se requiere, es posible descargar el parche por separado ([desde la última release](https://github.com/Traducciones-Kurain/AATrilogy-2019-ESP/releases/latest/download/Patch-Steam.zip)) y colocarlo en la misma ubicación que el parcheador. De esta manera se salteara la descarga y se aplicara directamente.
-5. Una vez aplicado, abrir el juego normalmente en Steam. Si el juego aparece en otro idioma, cambiar a español en el menú de opciones.
+4. Darle al botón "Sí" y esperar a que se descargue y aplique el parche.<br/>
+4.1. Si se requiere, es posible descargar el parche por separado ([desde la última release](https://github.com/Traducciones-Kurain/AATrilogy-2019-ESP/releases/latest/download/Patch-Steam.zip)) y colocarlo en la misma ubicación que el parcheador. De esta manera se saltará la descarga y se aplicará directamente.
+5. Una vez aplicado, abrir el juego normalmente desde Steam. Si el juego aparece en otro idioma, cambiar a español en el menú de opciones.
 
 ## Troubleshooting
 
@@ -27,7 +27,7 @@ Parcheador de Ace Attorney Trilogy (2019) al español. El idioma se inserta como
 Eso puede deberse a estos motivos:
   - El juego no está instalado.
   - El juego no fue instalado mediante Steam.
-  - El juego se instaló y se movió de forma manual (Cortar y pegar).
+  - El juego se instaló y se movió de forma manual (cortar y pegar).
 
 En cualquiera de los tres casos, la solución más sencilla es (re)instalar el juego desde Steam.
 
@@ -36,7 +36,7 @@ En cualquiera de los tres casos, la solución más sencilla es (re)instalar el j
 Puede suceder que el parcheador no sea capaz de escribir en el directorio donde se encuentra. Esto se puede solucionar de dos maneras:
 
 - Moviendo el ejecutable a un directorio donde tenga permisos, como puede ser el escritorio o la carpeta de Documentos.
-- Ejecutándolo como administrador (No recomendado, hacer eso solo si lo anterior no funcionó).
+- Ejecutándolo como administrador (no recomendado, hacer eso solo si lo anterior no funcionó).
 
 
 Si necesitas soporte más allá de lo que hay aquí escrito, escribe en el canal de ``#soporte-parches`` de nuestro [servidor de Discord](https://discord.gg/dtaFZcWmUA).
@@ -62,5 +62,3 @@ Si necesitas soporte más allá de lo que hay aquí escrito, escribe en el canal
 - Parcheador escrito por [CTPache](https://github.com/CTPache).
 
 - Interfaz escrita por [CTPache](https://github.com/CTPache) y [legendaryX77](https://github.com/legendaryX77).
-
-- Agradecimientos a [Darkmet98](https://github.com/Darkmet98) por el [parcheador de Disgaea](https://github.com/Darkmet98/DisgaeaPatcher).
