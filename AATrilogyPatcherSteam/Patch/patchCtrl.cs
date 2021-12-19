@@ -109,9 +109,9 @@ namespace AATrilogyPatcherSteam.Patch
         // basado en https://github.com/Darkmet98/OkamiPatcher/blob/main/OkamiPatcher/Controllers/SteamController.cs
 
         private static string steamPath = MainWindowViewModel.steamGamePath;
-        private static string url = "";
+        private static string url = "https://github.com/Traducciones-Kurain/AATrilogy-2019-ESP/releases/latest/download/Patch-Steam.zip";
         private static Main patchProcess;
-        private static string downloadPath = $"{Directory.GetCurrentDirectory()}{Path.DirectorySeparatorChar}Patch.zip";
+        private static string downloadPath = $"{Directory.GetCurrentDirectory()}{Path.DirectorySeparatorChar}Patch-Steam.zip";
         public static (int, string) PatchProcess()
         {
             var downloadPatch = DownloadPatch();
