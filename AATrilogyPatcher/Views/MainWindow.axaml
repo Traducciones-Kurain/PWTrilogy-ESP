@@ -1,9 +1,9 @@
 <Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:vm="using:AATrilogyPatcherSteam.ViewModels"
+        xmlns:vm="using:AATrilogyPatcher.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        x:Class="AATrilogyPatcherSteam.Views.MainWindow"
+        x:Class="AATrilogyPatcher.Views.MainWindow"
         Icon="/Assets/img/icon.ico"
         Title="Parcheador Ace Attorney Trilogy (Steam)"
         WindowStartupLocation="CenterScreen"
@@ -11,7 +11,7 @@
         CanResize="False">
 
   <Window.Background>
-    <ImageBrush Source="avares://AATrilogyPatcherSteam/Assets/img/background.png"/>
+    <ImageBrush Source="avares://AATrilogyPatcher/Assets/img/background.png"/>
   </Window.Background>
 
   <Design.DataContext>

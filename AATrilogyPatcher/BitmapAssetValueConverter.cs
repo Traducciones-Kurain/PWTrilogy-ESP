@@ -7,7 +7,7 @@ using System;
 using System.Globalization;
 using System.Reflection;
 
-namespace AATrilogyPatcherSteam
+namespace AATrilogyPatcher
 {
     //https://docs.avaloniaui.net/docs/controls/image
     public class BitmapAssetValueConverter : IValueConverter

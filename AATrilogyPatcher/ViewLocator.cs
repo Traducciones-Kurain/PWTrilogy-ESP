@@ -1,9 +1,9 @@
-using AATrilogyPatcherSteam.ViewModels;
+using AATrilogyPatcher.ViewModels;
 using Avalonia.Controls;
 using Avalonia.Controls.Templates;
 using System;
 
-namespace AATrilogyPatcherSteam
+namespace AATrilogyPatcher
 {
     public class ViewLocator : IDataTemplate
     {

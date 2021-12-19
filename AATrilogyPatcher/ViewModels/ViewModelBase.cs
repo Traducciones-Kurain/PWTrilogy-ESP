@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace AATrilogyPatcherSteam.ViewModels
+namespace AATrilogyPatcher.ViewModels
 {
     public class ViewModelBase : ReactiveObject
     {

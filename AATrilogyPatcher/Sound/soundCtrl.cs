@@ -4,7 +4,7 @@ using System.Windows;
 using NAudio.Extras;
 using NAudio.Wave;
 
-namespace AATrilogyPatcherSteam.Sound
+namespace AATrilogyPatcher.Sound
 {
     // modificacion de https://github.com/naudio/NAudio/blob/master/NAudioWpfDemo/AudioPlaybackDemo/AudioPlayback.cs#L8
     class AudioPlayback : IDisposable

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using Mara.Lib.Common;
-using AATrilogyPatcherSteam.ViewModels;
+using AATrilogyPatcher.ViewModels;
 
-namespace AATrilogyPatcherSteam.Patch
+namespace AATrilogyPatcher.Patch
 {
     // version modificada de https://github.com/TraduSquare/Mara/blob/main/Mara.Lib/Platforms/Generic/Main.cs debido a que el parche crea archivos nuevos
     public class Main : Mara.Lib.Platforms.PatchProcess

@@ -7,7 +7,7 @@ using Avalonia.Input;
 using System.Diagnostics;
 using System.Net;
 
-namespace AATrilogyPatcherSteam.Views
+namespace AATrilogyPatcher.Views
 {
     public partial class MainWindow : Window
     {
@@ -38,19 +38,19 @@ namespace AATrilogyPatcherSteam.Views
 
         private void ParchearClick(object sender, RoutedEventArgs e)
         {
-            Sound.soundCtrl.PlaySound(AATrilogyPatcherSteam.Resources.se001);
+            Sound.soundCtrl.PlaySound(AATrilogyPatcher.Resources.se001);
             mainGrid.Children.Add(new PatchWindow());
         }
 
         private void CreditosClick(object sender, RoutedEventArgs e)
         {
-            Sound.soundCtrl.PlaySound(AATrilogyPatcherSteam.Resources.se001);
+            Sound.soundCtrl.PlaySound(AATrilogyPatcher.Resources.se001);
             Process.Start("explorer", "https://github.com/Traducciones-Kurain/AATrilogy-2019-ESP/blob/master/CREDITOS.md");
         }
 
         private void DiscordClick(object sender, RoutedEventArgs e)
         {
-            Sound.soundCtrl.PlaySound(AATrilogyPatcherSteam.Resources.se001);
+            Sound.soundCtrl.PlaySound(AATrilogyPatcher.Resources.se001);
 
             // lo hago de esta manera por si el invite cambia y el usuario no esta forzado a actualizar el parcheador
             try
@@ -68,7 +68,7 @@ namespace AATrilogyPatcherSteam.Views
 
         private void SalirClick(object sender, RoutedEventArgs e)
         {
-            Sound.soundCtrl.PlaySound(AATrilogyPatcherSteam.Resources.se001);
+            Sound.soundCtrl.PlaySound(AATrilogyPatcher.Resources.se001);
 
             if (Application.Current.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime lifetime)
             {
@@ -83,7 +83,7 @@ namespace AATrilogyPatcherSteam.Views
 
         private void OnPointerEnter(object sender, PointerEventArgs e)
         {
-            Sound.soundCtrl.PlaySound(AATrilogyPatcherSteam.Resources.se000);
+            Sound.soundCtrl.PlaySound(AATrilogyPatcher.Resources.se000);
         }
     }
 }

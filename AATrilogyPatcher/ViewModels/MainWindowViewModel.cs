@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.Win32;
 using ReactiveUI;
 
-namespace AATrilogyPatcherSteam.ViewModels
+namespace AATrilogyPatcher.ViewModels
 {
     public class MainWindowViewModel : ViewModelBase, ICloseWindows
     {
@@ -61,7 +61,7 @@ namespace AATrilogyPatcherSteam.ViewModels
         public ReactiveCommand<Unit, Unit> startPatch { get; }
         public ReactiveCommand<Unit, Unit> restartButtons { get; }
 
-        private string assetsImgPath = "avares://AATrilogyPatcherSteam/Assets/img";
+        private string assetsImgPath = "avares://AATrilogyPatcher/Assets/img";
 
         public MainWindowViewModel()
         {

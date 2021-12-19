@@ -5,7 +5,7 @@ using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Avalonia.Input;
 
-namespace AATrilogyPatcherSteam.Views
+namespace AATrilogyPatcher.Views
 {
     public partial class PatchWindow : UserControl
     {
@@ -53,18 +53,18 @@ namespace AATrilogyPatcherSteam.Views
 
         private void SiClick(object sender, RoutedEventArgs e)
         {
-            Sound.soundCtrl.PlaySound(AATrilogyPatcherSteam.Resources.se001);
+            Sound.soundCtrl.PlaySound(AATrilogyPatcher.Resources.se001);
         }
 
         private void NoClick(object sender, RoutedEventArgs e)
         {
-            Sound.soundCtrl.PlaySound(AATrilogyPatcherSteam.Resources.se002);
+            Sound.soundCtrl.PlaySound(AATrilogyPatcher.Resources.se002);
             IsVisible = false;
         }
 
         private void AceptarClick(object sender, RoutedEventArgs e)
         {
-            Sound.soundCtrl.PlaySound(AATrilogyPatcherSteam.Resources.se001);
+            Sound.soundCtrl.PlaySound(AATrilogyPatcher.Resources.se001);
             if (!isUpdate)
                 this.IsVisible = false;
             else
@@ -73,7 +73,7 @@ namespace AATrilogyPatcherSteam.Views
 
         private void OnPointerEnter(object sender, PointerEventArgs e)
         {
-            Sound.soundCtrl.PlaySound(AATrilogyPatcherSteam.Resources.se000);
+            Sound.soundCtrl.PlaySound(AATrilogyPatcher.Resources.se000);
         }
     }
 }

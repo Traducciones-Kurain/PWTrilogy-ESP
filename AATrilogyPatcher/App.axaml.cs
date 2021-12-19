@@ -1,10 +1,10 @@
-using AATrilogyPatcherSteam.ViewModels;
-using AATrilogyPatcherSteam.Views;
+using AATrilogyPatcher.ViewModels;
+using AATrilogyPatcher.Views;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 
-namespace AATrilogyPatcherSteam
+namespace AATrilogyPatcher
 {
     public class App : Application
     {

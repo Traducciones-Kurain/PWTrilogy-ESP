@@ -3,8 +3,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:gif="clr-namespace:AvaloniaGif;assembly=AvaloniaGif"
-             xmlns:ext="clr-namespace:AATrilogyPatcherSteam;assembly=AATrilogyPatcherSteam"
-             x:Class="AATrilogyPatcherSteam.Views.PatchWindow"
+             xmlns:ext="clr-namespace:AATrilogyPatcher;assembly=AATrilogyPatcher"
+             x:Class="AATrilogyPatcher.Views.PatchWindow"
              Width="1258" Height= "668">
 
   <UserControl.Resources>
@@ -145,7 +145,7 @@
       </Grid>
 
       <gif:GifImage Grid.Row="2"
-                    SourceUriRaw="resm:AATrilogyPatcherSteam.Assets.img.loading.gif"
+                    SourceUriRaw="resm:AATrilogyPatcher.Assets.img.loading.gif"
                     Stretch="None"
                     IsVisible="{Binding patchingVisible, Mode=TwoWay}"/>
     </Grid>
