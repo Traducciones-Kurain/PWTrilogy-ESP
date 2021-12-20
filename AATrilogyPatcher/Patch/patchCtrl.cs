@@ -70,7 +70,7 @@ namespace AATrilogyPatcher.Patch
                 if (File.Exists(oriFile))
                     File.Delete(oriFile);
 
-                System.Diagnostics.Debug.WriteLine($"added to list {file}");
+                //System.Diagnostics.Debug.WriteLine($"added to list {file}");
 
                 replacedFiles.Add(file);
 
