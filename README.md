@@ -9,6 +9,7 @@ Parcheador de Ace Attorney Trilogy (2019) al español. El idioma se inserta como
 
 ### IMPORTANTE
 - El parcheador solamente funciona en Windows, ya que usa el registro de Windows para buscar el juego y por el uso de una biblioteca/librería exclusiva a Windows (NAudio). Se admiten pull requests de soporte para otros sistemas operativos.
+- Si utilizas Windows 7, se requiere el Service Pack 1 y la actualización KB3063858.
 - Una vez el parche esté aplicado, tienes que ir a los ajustes y cambiar el idioma desde ahí (será el último de la lista).
 - En el caso de querer mover la instalación del juego, se recomienda primero moverla con la herramienta de Steam, y a continuación comprobar que no haya quedado nada en la ubicación anterior. Si queda algo, se puede cortar y pegar.
 - Se recomienda hacer lo mismo si se quiere desinstalar el juego, primero desinstalarlo desde Steam y a continuación eliminar el directorio del juego de forma manual.
