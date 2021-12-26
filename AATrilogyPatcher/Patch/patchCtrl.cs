@@ -142,6 +142,8 @@ namespace AATrilogyPatcher.Patch
                 return ((int)MainWindowViewModel.ErrorCodes.HashError, string.Empty);
             }
 
+            File.Delete(downloadPath);
+
             return (0, string.Empty);
         }
 
