@@ -55,6 +55,13 @@ namespace AATrilogyPatcher.ViewModels
             set => this.RaiseAndSetIfChanged(ref _patchingVisible, value);
         }
 
+        private bool _cacheVisible;
+        public bool cacheVisible
+        {
+            get => _cacheVisible;
+            set => this.RaiseAndSetIfChanged(ref _cacheVisible, value);
+        }
+
         private bool updateMode;
 
         public ReactiveCommand<Unit, Unit> findPath { get; }
@@ -172,6 +179,7 @@ namespace AATrilogyPatcher.ViewModels
             patchVisible = false;
             patchingVisible = false;
             aceptarVisible = false;
+            cacheVisible = false;
         }
 
         private void RestartWindow()
@@ -179,6 +187,7 @@ namespace AATrilogyPatcher.ViewModels
             errorVisible = false;
             patchVisible = false;
             patchingVisible = false;
+            cacheVisible = false;
             PlaySource = $"{assetsImgPath}/ventana.png";
         }
 
@@ -186,21 +195,25 @@ namespace AATrilogyPatcher.ViewModels
         {
             RestartWindow();
 
+            switch (ErrorCode)
+            {
+                case (int)ErrorCodes.DownloadError:
+                    PlaySource = $"{assetsImgPath}/ventana_error_descarga.png";
+                    break;
+                case (int)ErrorCodes.ExtractError:
+                    PlaySource = $"{assetsImgPath}/ventana_error_extraer.png";
+                    break;
+                case (int)ErrorCodes.PatchError:
+                    PlaySource = $"{assetsImgPath}/ventana_error_aplicar.png";
+                    break;
+                case (int)ErrorCodes.HashError:
+                    PlaySource = $"{assetsImgPath}/ventana_error_hash.png";
+                    cacheVisible = true;
+                    break;
+            }
+
             if (ErrorMessage != string.Empty)
             {
-                switch (ErrorCode)
-                {
-                    case (int)ErrorCodes.DownloadError:
-                        PlaySource = $"{assetsImgPath}/ventana_error_descarga.png";
-                        break;
-                    case (int)ErrorCodes.ExtractError:
-                        PlaySource = $"{assetsImgPath}/ventana_error_extraer.png";
-                        break;
-                    case (int)ErrorCodes.PatchError:
-                        PlaySource = $"{assetsImgPath}/ventana_error_aplicar.png";
-                        break;
-                }
-
                 aceptarVisible = true;
                 var errorLogFile = $"{Directory.GetCurrentDirectory()}{Path.DirectorySeparatorChar}error.log";
                 File.WriteAllText(errorLogFile, ErrorMessage);
@@ -211,7 +224,8 @@ namespace AATrilogyPatcher.ViewModels
         {
             DownloadError = 1,
             ExtractError = 2,
-            PatchError = 3
+            PatchError = 3,
+            HashError = 4
         }
     }
 

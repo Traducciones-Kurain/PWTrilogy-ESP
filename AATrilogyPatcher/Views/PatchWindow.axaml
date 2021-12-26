@@ -124,6 +124,31 @@
               </Setter.Value>
             </Setter>
           </Style>
+
+          <Style Selector="Button.VerificarButton">
+            <Setter Property="Width" Value="212"/>
+            <Setter Property="Height" Value="50"/>
+
+            <Setter Property="Background">
+              <Setter.Value>
+                <ImageBrush Source="/Assets/img/verificar.png"/>
+              </Setter.Value>
+            </Setter>
+          </Style>
+          <Style Selector="Button.VerificarButton:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background">
+              <Setter.Value>
+                <ImageBrush Source="/Assets/img/verificar_sel.png"/>
+              </Setter.Value>
+            </Setter>
+          </Style>
+          <Style Selector="Button.VerificarButton:pressed /template/ ContentPresenter">
+            <Setter Property="Background">
+              <Setter.Value>
+                <ImageBrush Source="/Assets/img/verificar_click.png"/>
+              </Setter.Value>
+            </Setter>
+          </Style>
         </Grid.Styles>
 
         <Button Classes="SiButton"
@@ -142,6 +167,23 @@
                 Click="NoClick"
                 IsVisible="{Binding patchVisible, Mode=TwoWay}"
                 PointerEnter="OnPointerEnter"/>
+
+        <Button Classes="VerificarButton"
+                Grid.Column="1" Grid.Row="2"
+                BorderThickness="0" Margin="0" Padding="0,0,0,0"
+                HorizontalAlignment="Center"
+                Click="VerificarClick"
+                IsVisible="{Binding cacheVisible, Mode=TwoWay}"
+                PointerEnter="OnPointerEnter"/>
+
+        <Button Classes="AceptarButton"
+                Grid.Column="2" Grid.Row="2"
+                BorderThickness="0" Margin="0" Padding="0,0,0,0"
+                HorizontalAlignment="Center"
+                Click="AceptarClick"
+                IsVisible="{Binding cacheVisible, Mode=TwoWay}"
+                PointerEnter="OnPointerEnter"
+                Command="{Binding restartButtons}"/>
       </Grid>
 
       <gif:GifImage Grid.Row="2"

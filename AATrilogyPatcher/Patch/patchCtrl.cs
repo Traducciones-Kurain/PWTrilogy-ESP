@@ -85,7 +85,10 @@ namespace AATrilogyPatcher.Patch
             }
 
             if (Md5.CalculateMd5(oriFile) != md5)
+            {
+                File.Delete(oriFile);
                 return (1, $"The file \"{oriFile}\" is not equal than the original file.");
+            }
 
             var outdir = Path.GetDirectoryName(outFile);
             if (!Directory.Exists(outdir))
@@ -130,9 +133,13 @@ namespace AATrilogyPatcher.Patch
             }
 
             var patchGame = PatchGame();
-            if (!patchGame.Item1)
+            if (patchGame.Item1 > 0 && patchGame.Item1 != 1)
             {
                 return ((int)MainWindowViewModel.ErrorCodes.PatchError, patchGame.Item2);
+            }
+            else if (patchGame.Item1 == 1)
+            {
+                return ((int)MainWindowViewModel.ErrorCodes.HashError, string.Empty);
             }
 
             return (0, string.Empty);
@@ -167,18 +174,18 @@ namespace AATrilogyPatcher.Patch
             return (true, string.Empty);
         }
 
-        public static (bool, string) PatchGame()
+        public static (int, string) PatchGame()
         {
             try
             {
                 var result = patchProcess.ApplyTranslation();
                 if (result.Item1 == 0)
-                    return (true, string.Empty);
-                return (false, $"Se ha producido un error aplicando la traducción.\nError: {result.Item1}\nMensaje: {result.Item2}");
+                    return (0, string.Empty);
+                return (result.Item1, $"Se ha producido un error aplicando la traducción.\nError: {result.Item1}\nMensaje: {result.Item2}");
             }
             catch (Exception e)
             {
-                return (false, $"Se ha producido un error aplicando la traducción.\nError: INTERNAL CRASH\nMensaje:\n{e.Message}\n{e.StackTrace}");
+                return (2, $"Se ha producido un error aplicando la traducción.\nError: INTERNAL CRASH\nMensaje:\n{e.Message}\n{e.StackTrace}");
             }
         }
     }

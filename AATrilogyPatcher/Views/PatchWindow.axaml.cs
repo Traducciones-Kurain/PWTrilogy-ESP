@@ -4,6 +4,7 @@ using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Avalonia.Input;
+using System.Diagnostics;
 
 namespace AATrilogyPatcher.Views
 {
@@ -74,6 +75,12 @@ namespace AATrilogyPatcher.Views
         private void OnPointerEnter(object sender, PointerEventArgs e)
         {
             Sound.soundCtrl.PlaySound(AATrilogyPatcher.Resources.se000);
+        }
+
+        private void VerificarClick(object sender, RoutedEventArgs e)
+        {
+            Sound.soundCtrl.PlaySound(AATrilogyPatcher.Resources.se001);
+            Process.Start(new ProcessStartInfo("cmd", "/c start steam://validate/787480") { CreateNoWindow = true });
         }
     }
 }
