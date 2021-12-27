@@ -67,8 +67,9 @@ namespace AATrilogyPatcher.Patch
                 if (!File.Exists(oriFile + "_ori"))
                     File.Move(oriFile, oriFile + "_ori");
 
-                if (Md5.CalculateMd5(oriFile) != md5)
+                if (Md5.CalculateMd5(oriFile + "_ori") != md5)
                 {
+                    File.Delete(oriFile + "_ori");
                     return (1, $"The file \"{oriFile}\" is not equal than the original file.");
                 }
 
