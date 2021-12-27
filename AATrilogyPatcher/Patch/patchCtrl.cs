@@ -133,6 +133,7 @@ namespace AATrilogyPatcher.Patch
             }
 
             var patchGame = PatchGame();
+            System.Diagnostics.Debug.WriteLine(patchGame.Item2);
             if (patchGame.Item1 > 0 && patchGame.Item1 != 1)
             {
                 return ((int)MainWindowViewModel.ErrorCodes.PatchError, patchGame.Item2);
@@ -184,6 +185,10 @@ namespace AATrilogyPatcher.Patch
                 if (result.Item1 == 0)
                     return (0, string.Empty);
                 return (result.Item1, $"Se ha producido un error aplicando la traducción.\nError: {result.Item1}\nMensaje: {result.Item2}");
+            }
+            catch (FileNotFoundException e)
+            {
+                return(1, $"Se ha producido un error aplicando la traducción.\nError: INTERNAL CRASH\nMensaje:\n{e.Message}\n{e.StackTrace}");
             }
             catch (Exception e)
             {
