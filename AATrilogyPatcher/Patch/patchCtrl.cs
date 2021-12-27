@@ -67,6 +67,11 @@ namespace AATrilogyPatcher.Patch
                 if (!File.Exists(oriFile + "_ori"))
                     File.Move(oriFile, oriFile + "_ori");
 
+                if (Md5.CalculateMd5(oriFile) != md5)
+                {
+                    return (1, $"The file \"{oriFile}\" is not equal than the original file.");
+                }
+
                 if (File.Exists(oriFile))
                     File.Delete(oriFile);
 
@@ -81,13 +86,11 @@ namespace AATrilogyPatcher.Patch
                 if (replacedFiles.Contains(file))
                     oriFile += "_ori";
 
+                if (Md5.CalculateMd5(oriFile) != md5)
+                {
+                    return (1, $"The file \"{oriFile}\" is not equal than the original file.");
+                }
                 //System.Diagnostics.Debug.WriteLine($"test123 {oriFile}");
-            }
-
-            if (Md5.CalculateMd5(oriFile) != md5)
-            {
-                File.Delete(oriFile);
-                return (1, $"The file \"{oriFile}\" is not equal than the original file.");
             }
 
             var outdir = Path.GetDirectoryName(outFile);
@@ -133,7 +136,6 @@ namespace AATrilogyPatcher.Patch
             }
 
             var patchGame = PatchGame();
-            System.Diagnostics.Debug.WriteLine(patchGame.Item2);
             if (patchGame.Item1 > 0 && patchGame.Item1 != 1)
             {
                 return ((int)MainWindowViewModel.ErrorCodes.PatchError, patchGame.Item2);
