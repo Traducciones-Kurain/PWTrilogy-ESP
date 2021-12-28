@@ -9,6 +9,7 @@
   <ItemGroup>
     <AvaloniaResource Include="Assets\img\*.png" />
     <AvaloniaResource Include="Assets\img\*.ico" />
+    <AvaloniaResource Include="Assets\fonts\*" />
     <EmbeddedResource Include="Assets\img\*.gif" />
     <AvaloniaXaml Remove="Models\**" />
     <Compile Remove="Models\**" />

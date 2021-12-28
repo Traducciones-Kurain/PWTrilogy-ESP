@@ -1,6 +1,7 @@
 using Avalonia.Threading;
 using System;
 using System.Diagnostics;
+using System.Linq;
 using System.IO;
 using System.Reactive;
 using System.Threading.Tasks;
@@ -62,11 +63,39 @@ namespace AATrilogyPatcher.ViewModels
             set => this.RaiseAndSetIfChanged(ref _cacheVisible, value);
         }
 
-        private string _textTest = "";
-        public string textTest
+        private string _progressText = "";
+        public string progressText
         {
-            get => _textTest;
-            set => this.RaiseAndSetIfChanged(ref _textTest, value);
+            get => _progressText;
+            set => this.RaiseAndSetIfChanged(ref _progressText, value);
+        }
+
+        private string _totalText = "";
+        public string totalText
+        {
+            get => _totalText;
+            set => this.RaiseAndSetIfChanged(ref _totalText, value);
+        }
+
+        private bool _textVisible;
+        public bool textVisible
+        {
+            get => _textVisible;
+            set => this.RaiseAndSetIfChanged(ref _textVisible, value);
+        }
+
+        private bool _textVisibleApl;
+        public bool textVisibleApl
+        {
+            get => _textVisibleApl;
+            set => this.RaiseAndSetIfChanged(ref _textVisibleApl, value);
+        }
+
+        private bool _updateWindow;
+        public bool updateWindow
+        {
+            get => _updateWindow;
+            set => this.RaiseAndSetIfChanged(ref _updateWindow, value);
         }
 
         private bool updateMode;
@@ -82,6 +111,12 @@ namespace AATrilogyPatcher.ViewModels
             errorVisible = false;
             patchVisible = false;
             aceptarVisible = false;
+
+            textVisible = false;
+            textVisibleApl = false;
+
+            updateWindow = false;
+
             PlaySource = $"{assetsImgPath}/ventana.png";
             steamPath = "";
 
@@ -129,6 +164,7 @@ namespace AATrilogyPatcher.ViewModels
         public async Task StartUpdatePatch()
         {
             updateMode = true;
+            updateWindow = true;
 
             if (SteamKeyExists())
             {
@@ -141,40 +177,78 @@ namespace AATrilogyPatcher.ViewModels
         {
             patchVisible = false;
             patchingVisible = true;
-            PlaySource = $"{assetsImgPath}/ventana_apl.png";
+            PlaySource = $"{assetsImgPath}/ventana_apl_descarga.png";
+
+            // basado en CheckGame(), https://github.com/Darkmet98/OkamiPatcher/blob/main/OkamiPatcher/Controllers/SteamController.cs#L95
+            var files = new string[]
+            {
+                "PWAAT.exe",
+                "UnityPlayer.dll",
+            };
+
+            if (files.Any(file => !File.Exists($"{steamPath}{Path.DirectorySeparatorChar}{file}")))
+            {
+                return ((int)ErrorCodes.FileError, string.Empty);
+            }
+
+            var assemblyDll = $"{steamPath}{Path.DirectorySeparatorChar}PWAAT_Data{Path.DirectorySeparatorChar}Managed{Path.DirectorySeparatorChar}Assembly-CSharp.dll";
+
+            if (!File.Exists(assemblyDll))
+            {
+                if (!File.Exists(assemblyDll + "_ori"))
+                    return ((int)ErrorCodes.FileError, string.Empty);
+            }
+
+            if (!Directory.Exists($"{steamPath}{Path.DirectorySeparatorChar}PWAAT_Data{Path.DirectorySeparatorChar}StreamingAssets{Path.DirectorySeparatorChar}InternationalFiles"))
+                return ((int)ErrorCodes.FileError, string.Empty);
+
+            textVisible = true;
+            progressText = "0";
+            totalText = "0";
 
             string downloadPath = $"{Directory.GetCurrentDirectory()}{Path.DirectorySeparatorChar}Patch-Steam.zip";
             var patchProcess = new Patch.PatchAsync(steamPath, downloadPath);
 
-            textTest = "descargandoooo!";
+            var progress = new Progress<(string, string)>(value =>
+            {
+                progressText = value.Item1;
+                totalText = value.Item2;
+            });
 
             if (!File.Exists(downloadPath))
             {
-                var downloadPatch = await patchProcess.DownloadPatch();
+                var downloadPatch = await patchProcess.DownloadPatch(progress);
                 if (!downloadPatch.Item1)
                 {
-                    return ((int)MainWindowViewModel.ErrorCodes.DownloadError, downloadPatch.Item2);
+                    return ((int)ErrorCodes.DownloadError, downloadPatch.Item2);
                 }
             }
 
-            textTest = "extrayendoooo!";
+            textVisible = false;
+            progressText = "0";
+            totalText = "0";
+
+            PlaySource = $"{assetsImgPath}/ventana_apl_extraer.png";
 
             var extractPatch = await patchProcess.ExtractPatch();
             if (!extractPatch.Item1)
             {
-                return ((int)MainWindowViewModel.ErrorCodes.ExtractError, extractPatch.Item2);
+                patchProcess.patchProcess.DeleteTempFolder();
+                return ((int)ErrorCodes.ExtractError, extractPatch.Item2);
             }
 
-            textTest = "aplicandoooo!";
+            PlaySource = $"{assetsImgPath}/ventana_apl.png";
+            textVisibleApl = true;
 
-            var patchGame = await patchProcess.PatchGame();
+            var patchGame = await patchProcess.PatchGame(progress);
             if (patchGame.Item1 > 0 && patchGame.Item1 != 1)
             {
-                return ((int)MainWindowViewModel.ErrorCodes.PatchError, patchGame.Item2);
+                patchProcess.patchProcess.DeleteTempFolder();
+                return ((int)ErrorCodes.PatchError, patchGame.Item2);
             }
             else if (patchGame.Item1 == 1)
             {
-                return ((int)MainWindowViewModel.ErrorCodes.HashError, patchGame.Item2);
+                return ((int)ErrorCodes.HashError, string.Empty);
             }
 
             File.Delete(downloadPath);
@@ -186,8 +260,10 @@ namespace AATrilogyPatcher.ViewModels
         {
             var patchResult = await PatchingProcess(isUpdate);
 
-            textTest = "listooooo!";
+            updateWindow = false;
 
+            textVisible = false;
+            textVisibleApl = false;
             if (patchResult.Item1 > 0)
             {
                 RestartWindow();
@@ -214,6 +290,14 @@ namespace AATrilogyPatcher.ViewModels
                     aceptarVisible = true;
                     var errorLogFile = $"{Directory.GetCurrentDirectory()}{Path.DirectorySeparatorChar}error.log";
                     File.WriteAllText(errorLogFile, patchResult.Item2);
+                }
+                else
+                {
+                    if (patchResult.Item1 == (int)ErrorCodes.FileError)
+                    {
+                        PlaySource = $"{assetsImgPath}/ventana_error_archivos.png";
+                        aceptarVisible = true;
+                    }
                 }
             }
             else
@@ -258,7 +342,8 @@ namespace AATrilogyPatcher.ViewModels
             DownloadError = 1,
             ExtractError = 2,
             PatchError = 3,
-            HashError = 4
+            HashError = 4,
+            FileError = 5
         }
     }
 

@@ -2,17 +2,12 @@
 using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.IO;
-using System.Linq;
 using System.Net;
-using System.Threading;
 using System.Threading.Tasks;
 using Mara.Lib;
 using Mara.Lib.Common;
 using Mara.Lib.Configs;
 using Newtonsoft.Json;
-using SharpCompress.Archives;
-using SharpCompress.Archives.Zip;
-using SharpCompress.Common;
 using AATrilogyPatcher.ViewModels;
 
 namespace AATrilogyPatcher.Patch
@@ -36,7 +31,7 @@ namespace AATrilogyPatcher.Patch
             this.filePath = filePath;
         }
 
-        public async Task<(int, string)> ApplyTranslation()
+        public async Task<(int, string)> ApplyTranslation(IProgress<(string, string)> progress)
         {
             var count = maraConfig.FilesInfo.ListOriFiles.Length;
             var files = maraConfig.FilesInfo;
@@ -60,6 +55,8 @@ namespace AATrilogyPatcher.Patch
 
                 if (result.Item1 != 0)
                     return result;
+
+                progress.Report((i.ToString(), count.ToString()));
             }
 
             Directory.Delete(tempFolder, true);
@@ -172,7 +169,8 @@ namespace AATrilogyPatcher.Patch
 
         public void DeleteTempFolder()
         {
-            Directory.Delete(tempFolder, true);
+            if (Directory.Exists(tempFolder))
+                Directory.Delete(tempFolder, true);
         }
 
         public PatchInfo GetInfo()
@@ -197,25 +195,29 @@ namespace AATrilogyPatcher.Patch
         }
 
         //https://github.com/TraduSquare/Mara/blob/main/Mara.Lib/Common/Internet.cs
-        private async Task GetFileAsync(string url, string path)
+        private async Task GetFileAsync(string url, string path, IProgress<(string, string)> progress)
         {
             var random = new Random();
             url += $"?random={random.Next()}";
             using var client = new WebClient();
+            client.DownloadProgressChanged += (s, e) => progress.Report(($"{decimal.Truncate(decimal.Divide(e.BytesReceived, 1048576))}", $"{decimal.Truncate(decimal.Divide(e.TotalBytesToReceive, 1048576))}"));
             await client.DownloadFileTaskAsync(url, path);
         }
 
-        public async Task<(bool, string)> DownloadPatch()
+        public async Task<(bool, string)> DownloadPatch(IProgress<(string, string)> progress)
         {
             try
             {
                 if (File.Exists(downloadPath))
                     File.Delete(downloadPath);
 
-                await GetFileAsync(url, downloadPath);
+                await GetFileAsync(url, downloadPath, progress);
             }
             catch (Exception e)
             {
+                if (File.Exists(downloadPath))
+                    File.Delete(downloadPath);
+
                 return (false, $"Se ha producido un error descargando los archivos.\n{e.Message}\n{e.StackTrace}");
             }
             return (true, string.Empty);
@@ -236,14 +238,13 @@ namespace AATrilogyPatcher.Patch
             return (true, string.Empty);
         }
 
-        public async Task<(int, string)> PatchGame()
+        public async Task<(int, string)> PatchGame(IProgress<(string, string)> progress)
         {
             try
             {
-                var result = await patchProcess.ApplyTranslation();
+                var result = await patchProcess.ApplyTranslation(progress);
                 if (result.Item1 == 0)
                 {
-                    patchProcess.DeleteTempFolder();
                     return (0, string.Empty);
                 }
                 return (result.Item1, $"Se ha producido un error aplicando la traducción.\nError: {result.Item1}\nMensaje: {result.Item2}");
