@@ -1,22 +1,42 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using System.IO;
+using System.Linq;
 using System.Net;
+using System.Threading;
+using System.Threading.Tasks;
+using Mara.Lib;
 using Mara.Lib.Common;
+using Mara.Lib.Configs;
+using Newtonsoft.Json;
+using SharpCompress.Archives;
+using SharpCompress.Archives.Zip;
+using SharpCompress.Common;
 using AATrilogyPatcher.ViewModels;
 
 namespace AATrilogyPatcher.Patch
 {
-    // version modificada de https://github.com/TraduSquare/Mara/blob/main/Mara.Lib/Platforms/Generic/Main.cs debido a que el parche crea archivos nuevos
-    public class Main : Mara.Lib.Platforms.PatchProcess
+    // version modificada de https://github.com/TraduSquare/Mara/blob/main/Mara.Lib/Platforms/PatchProcess.cs y https://github.com/TraduSquare/Mara/blob/main/Mara.Lib/Platforms/Generic/Main.cs debido a que el parche crea archivos nuevos
+
+    public class PatchProcessAsync
     {
+        protected MaraConfig maraConfig;
+        protected string tempFolder;
+        protected string oriFolder;
+        protected string outFolder;
+        protected string filePath;
+
         private List<string> replacedFiles = new List<string>();
 
-        public Main(string oriFolder, string outFolder, string filePath) : base(oriFolder, outFolder, filePath)
+        public PatchProcessAsync(string oriFolder, string outFolder, string filePath)
         {
+            this.oriFolder = oriFolder;
+            this.outFolder = outFolder;
+            this.filePath = filePath;
         }
 
-        public override (int, string) ApplyTranslation()
+        public async Task<(int, string)> ApplyTranslation()
         {
             var count = maraConfig.FilesInfo.ListOriFiles.Length;
             var files = maraConfig.FilesInfo;
@@ -36,13 +56,14 @@ namespace AATrilogyPatcher.Patch
                     if (!File.Exists(oriFile))
                         continue;
 
-                var result = ApplyXdelta(oriFile, xdeltaFile, outFile, files.ListMd5Files[i]);
+                var result = await ApplyXdelta(oriFile, xdeltaFile, outFile, files.ListMd5Files[i]);
 
                 if (result.Item1 != 0)
                     return result;
             }
 
-            return base.ApplyTranslation();
+            Directory.Delete(tempFolder, true);
+            return (0, string.Empty);
         }
 
         private bool CheckExcludeFile(string file)
@@ -56,7 +77,7 @@ namespace AATrilogyPatcher.Patch
             return false;
         }
 
-        private new(int, string) ApplyXdelta(string file, string xdelta, string result, string md5)
+        private async Task<(int, string)> ApplyXdelta(string file, string xdelta, string result, string md5)
         {
             var oriFile = $"{oriFolder}{Path.DirectorySeparatorChar}{file}";
             var xdeltaFile = $"{tempFolder}{Path.DirectorySeparatorChar}{xdelta}";
@@ -65,9 +86,11 @@ namespace AATrilogyPatcher.Patch
             if (file == result)
             {
                 if (!File.Exists(oriFile + "_ori"))
-                    File.Move(oriFile, oriFile + "_ori");
+                    File.Copy(oriFile, oriFile + "_ori");
 
-                if (Md5.CalculateMd5(oriFile + "_ori") != md5)
+                var hash = await CalculateMd5(oriFile + "_ori");
+
+                if (hash != md5)
                 {
                     File.Delete(oriFile + "_ori");
                     return (1, $"The file \"{oriFile}\" is not equal than the original file.");
@@ -75,8 +98,6 @@ namespace AATrilogyPatcher.Patch
 
                 if (File.Exists(oriFile))
                     File.Delete(oriFile);
-
-                //System.Diagnostics.Debug.WriteLine($"added to list {file}");
 
                 replacedFiles.Add(file);
 
@@ -87,11 +108,12 @@ namespace AATrilogyPatcher.Patch
                 if (replacedFiles.Contains(file))
                     oriFile += "_ori";
 
-                if (Md5.CalculateMd5(oriFile) != md5)
+                var hash = await CalculateMd5(oriFile);
+
+                if (hash != md5)
                 {
                     return (1, $"The file \"{oriFile}\" is not equal than the original file.");
                 }
-                //System.Diagnostics.Debug.WriteLine($"test123 {oriFile}");
             }
 
             var outdir = Path.GetDirectoryName(outFile);
@@ -100,7 +122,7 @@ namespace AATrilogyPatcher.Patch
 
             try
             {
-                Xdelta.Apply(File.Open(oriFile, FileMode.Open), File.ReadAllBytes(xdeltaFile), outFile);
+                await Task.Run(() => Xdelta.Apply(File.Open(oriFile, FileMode.Open), File.ReadAllBytes(xdeltaFile), outFile));
             }
             catch (Exception e)
             {
@@ -109,56 +131,88 @@ namespace AATrilogyPatcher.Patch
 
             return (0, string.Empty);
         }
-    }
 
-    class Patch
-    {
-        // basado en https://github.com/Darkmet98/OkamiPatcher/blob/main/OkamiPatcher/Controllers/SteamController.cs
-
-        private static string steamPath = MainWindowViewModel.steamGamePath;
-        private static string url = "https://github.com/Traducciones-Kurain/AATrilogy-2019-ESP/releases/latest/download/Patch-Steam.zip";
-        private static Main patchProcess;
-        private static string downloadPath = $"{Directory.GetCurrentDirectory()}{Path.DirectorySeparatorChar}Patch-Steam.zip";
-        public static (int, string) PatchProcess()
+        //https://github.com/TraduSquare/Mara/blob/main/Mara.Lib/Common/Md5.cs
+        private async Task<string> CalculateMd5(string filename)
         {
-            if (!File.Exists(downloadPath))
+            using (var md5 = MD5.Create())
             {
-                var downloadPatch = DownloadPatch();
-                if (!downloadPatch.Item1)
+                using (var stream = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.Read, 4096, true))
                 {
-                    return ((int)MainWindowViewModel.ErrorCodes.DownloadError, downloadPatch.Item2);
+                    byte[] buffer = new byte[4096];
+                    int bytesRead;
+                    do
+                    {
+                        bytesRead = await stream.ReadAsync(buffer, 0, 4096);
+                        if (bytesRead > 0)
+                        {
+                            md5.TransformBlock(buffer, 0, bytesRead, null, 0);
+                        }
+                    } while (bytesRead > 0);
+
+                    md5.TransformFinalBlock(buffer, 0, 0);
+                    return BitConverter.ToString(md5.Hash).Replace("-", "").ToLowerInvariant();
                 }
             }
-
-            var extractPatch = ExtractPatch();
-            if (!extractPatch.Item1)
-            {
-                return ((int)MainWindowViewModel.ErrorCodes.ExtractError, extractPatch.Item2);
-            }
-
-            var patchGame = PatchGame();
-            if (patchGame.Item1 > 0 && patchGame.Item1 != 1)
-            {
-                return ((int)MainWindowViewModel.ErrorCodes.PatchError, patchGame.Item2);
-            }
-            else if (patchGame.Item1 == 1)
-            {
-                return ((int)MainWindowViewModel.ErrorCodes.HashError, string.Empty);
-            }
-
-            File.Delete(downloadPath);
-
-            return (0, string.Empty);
         }
 
-        public static (bool, string) DownloadPatch()
+        public void GenerateTempFolder()
+        {
+            tempFolder = Path.GetTempPath() + Path.DirectorySeparatorChar + Path.GetRandomFileName();
+            Directory.CreateDirectory(tempFolder);
+        }
+
+        public async Task ExtractPatch()
+        {
+            await Task.Run(() => Lzma.Unpack(filePath, tempFolder));
+
+            var configText = await File.ReadAllTextAsync($"{tempFolder}{Path.DirectorySeparatorChar}data.json");
+            maraConfig = JsonConvert.DeserializeObject<MaraConfig>(configText);
+        }
+
+        public void DeleteTempFolder()
+        {
+            Directory.Delete(tempFolder, true);
+        }
+
+        public PatchInfo GetInfo()
+        {
+            return maraConfig.Info;
+        }
+    }
+
+    // basado en https://github.com/Darkmet98/OkamiPatcher/blob/main/OkamiPatcher/Controllers/SteamController.cs
+    class PatchAsync
+    {
+        private string steamPath;
+        private string downloadPath;
+        private string url = "https://github.com/Traducciones-Kurain/AATrilogy-2019-ESP/releases/latest/download/Patch-Steam.zip";
+
+        public PatchProcessAsync patchProcess;
+
+        public PatchAsync(string steamPath, string downloadPath)
+        {
+            this.steamPath = steamPath;
+            this.downloadPath = downloadPath;
+        }
+
+        //https://github.com/TraduSquare/Mara/blob/main/Mara.Lib/Common/Internet.cs
+        private async Task GetFileAsync(string url, string path)
+        {
+            var random = new Random();
+            url += $"?random={random.Next()}";
+            using var client = new WebClient();
+            await client.DownloadFileTaskAsync(url, path);
+        }
+
+        public async Task<(bool, string)> DownloadPatch()
         {
             try
             {
                 if (File.Exists(downloadPath))
                     File.Delete(downloadPath);
 
-                Internet.GetFile(url, downloadPath);
+                await GetFileAsync(url, downloadPath);
             }
             catch (Exception e)
             {
@@ -167,11 +221,13 @@ namespace AATrilogyPatcher.Patch
             return (true, string.Empty);
         }
 
-        public static (bool, string) ExtractPatch()
+        public async Task<(bool, string)> ExtractPatch()
         {
             try
             {
-                patchProcess = new Main(steamPath, steamPath, downloadPath);
+                patchProcess = new PatchProcessAsync(steamPath, steamPath, downloadPath);
+                patchProcess.GenerateTempFolder();
+                await patchProcess.ExtractPatch();
             }
             catch (Exception e)
             {
@@ -180,18 +236,21 @@ namespace AATrilogyPatcher.Patch
             return (true, string.Empty);
         }
 
-        public static (int, string) PatchGame()
+        public async Task<(int, string)> PatchGame()
         {
             try
             {
-                var result = patchProcess.ApplyTranslation();
+                var result = await patchProcess.ApplyTranslation();
                 if (result.Item1 == 0)
+                {
+                    patchProcess.DeleteTempFolder();
                     return (0, string.Empty);
+                }
                 return (result.Item1, $"Se ha producido un error aplicando la traducción.\nError: {result.Item1}\nMensaje: {result.Item2}");
             }
             catch (FileNotFoundException e)
             {
-                return(1, $"Se ha producido un error aplicando la traducción.\nError: INTERNAL CRASH\nMensaje:\n{e.Message}\n{e.StackTrace}");
+                return (1, $"Se ha producido un error aplicando la traducción.\nError: INTERNAL CRASH\nMensaje:\n{e.Message}\n{e.StackTrace}");
             }
             catch (Exception e)
             {

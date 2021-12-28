@@ -190,6 +190,8 @@
                     SourceUriRaw="resm:AATrilogyPatcher.Assets.img.loading.gif"
                     Stretch="None"
                     IsVisible="{Binding patchingVisible, Mode=TwoWay}"/>
+
+      <TextBlock Grid.Row="2" Text="{Binding textTest}" HorizontalAlignment="Center"/>
     </Grid>
   </Grid>
 </UserControl>

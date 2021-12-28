@@ -62,6 +62,13 @@ namespace AATrilogyPatcher.ViewModels
             set => this.RaiseAndSetIfChanged(ref _cacheVisible, value);
         }
 
+        private string _textTest = "";
+        public string textTest
+        {
+            get => _textTest;
+            set => this.RaiseAndSetIfChanged(ref _textTest, value);
+        }
+
         private bool updateMode;
 
         public ReactiveCommand<Unit, Unit> findPath { get; }
@@ -116,9 +123,7 @@ namespace AATrilogyPatcher.ViewModels
         async Task StartPatch()
         {
             updateMode = false;
-
-            await ApplyingPatch(updateMode);
-            await PatchingProcess(updateMode);
+            await StartPatchingProcess(updateMode);
         }
 
         public async Task StartUpdatePatch()
@@ -128,50 +133,107 @@ namespace AATrilogyPatcher.ViewModels
             if (SteamKeyExists())
             {
                 steamPath = steamGamePath;
-                await ApplyingPatch(updateMode);
-                await PatchingProcess(updateMode);
+                await StartPatchingProcess(updateMode);
             }
         }
 
-        async Task ApplyingPatch(bool isUpdate)
+        async Task<(int, string)> PatchingProcess(bool isUpdate)
         {
-            string applyingWindow = $"{assetsImgPath}/ventana_apl.png";
-            if (isUpdate)
-                applyingWindow = $"{assetsImgPath}/ventana_apl_up.png";
+            patchVisible = false;
+            patchingVisible = true;
+            PlaySource = $"{assetsImgPath}/ventana_apl.png";
 
-            await Task.Run(() =>
+            string downloadPath = $"{Directory.GetCurrentDirectory()}{Path.DirectorySeparatorChar}Patch-Steam.zip";
+            var patchProcess = new Patch.PatchAsync(steamPath, downloadPath);
+
+            textTest = "descargandoooo!";
+
+            if (!File.Exists(downloadPath))
             {
-                patchVisible = false;
-                patchingVisible = true;
-                PlaySource = applyingWindow;
-            });
+                var downloadPatch = await patchProcess.DownloadPatch();
+                if (!downloadPatch.Item1)
+                {
+                    return ((int)MainWindowViewModel.ErrorCodes.DownloadError, downloadPatch.Item2);
+                }
+            }
+
+            textTest = "extrayendoooo!";
+
+            var extractPatch = await patchProcess.ExtractPatch();
+            if (!extractPatch.Item1)
+            {
+                return ((int)MainWindowViewModel.ErrorCodes.ExtractError, extractPatch.Item2);
+            }
+
+            textTest = "aplicandoooo!";
+
+            var patchGame = await patchProcess.PatchGame();
+            if (patchGame.Item1 > 0 && patchGame.Item1 != 1)
+            {
+                return ((int)MainWindowViewModel.ErrorCodes.PatchError, patchGame.Item2);
+            }
+            else if (patchGame.Item1 == 1)
+            {
+                return ((int)MainWindowViewModel.ErrorCodes.HashError, patchGame.Item2);
+            }
+
+            File.Delete(downloadPath);
+
+            return (0, string.Empty);
         }
 
-        public Action Close { get; set; }
-
-        async Task PatchingProcess(bool isUpdate)
+        async Task StartPatchingProcess(bool isUpdate)
         {
-            await Task.Run(() =>
+            var patchResult = await PatchingProcess(isUpdate);
+
+            textTest = "listooooo!";
+
+            if (patchResult.Item1 > 0)
             {
-                var patchResult = Patch.Patch.PatchProcess();
-                if (patchResult.Item1 > 0)
+                RestartWindow();
+
+                switch (patchResult.Item1)
                 {
-                    FailedPatch(patchResult.Item1, patchResult.Item2);
+                    case (int)ErrorCodes.DownloadError:
+                        PlaySource = $"{assetsImgPath}/ventana_error_descarga.png";
+                        break;
+                    case (int)ErrorCodes.ExtractError:
+                        PlaySource = $"{assetsImgPath}/ventana_error_extraer.png";
+                        break;
+                    case (int)ErrorCodes.PatchError:
+                        PlaySource = $"{assetsImgPath}/ventana_error_aplicar.png";
+                        break;
+                    case (int)ErrorCodes.HashError:
+                        PlaySource = $"{assetsImgPath}/ventana_error_hash.png";
+                        cacheVisible = true;
+                        break;
                 }
-                else if (!isUpdate)
+
+                if (patchResult.Item2 != string.Empty)
+                {
+                    aceptarVisible = true;
+                    var errorLogFile = $"{Directory.GetCurrentDirectory()}{Path.DirectorySeparatorChar}error.log";
+                    File.WriteAllText(errorLogFile, patchResult.Item2);
+                }
+            }
+            else
+            {
+                if (!isUpdate)
                 {
                     patchingVisible = false;
                     aceptarVisible = true;
                     PlaySource = $"{assetsImgPath}/ventana_exito.png";
                 }
-                else if (isUpdate)
+                else
                 {
                     Process.Start("explorer", "steam://rungameid/787480");
 
-                    Dispatcher.UIThread.InvokeAsync(Close);
+                    await Dispatcher.UIThread.InvokeAsync(Close);
                 }
-            });
+            }
         }
+
+        public Action Close { get; set; }
 
         private void RestartButtons()
         {
@@ -189,35 +251,6 @@ namespace AATrilogyPatcher.ViewModels
             patchingVisible = false;
             cacheVisible = false;
             PlaySource = $"{assetsImgPath}/ventana.png";
-        }
-
-        public void FailedPatch(int ErrorCode, string ErrorMessage)
-        {
-            RestartWindow();
-
-            switch (ErrorCode)
-            {
-                case (int)ErrorCodes.DownloadError:
-                    PlaySource = $"{assetsImgPath}/ventana_error_descarga.png";
-                    break;
-                case (int)ErrorCodes.ExtractError:
-                    PlaySource = $"{assetsImgPath}/ventana_error_extraer.png";
-                    break;
-                case (int)ErrorCodes.PatchError:
-                    PlaySource = $"{assetsImgPath}/ventana_error_aplicar.png";
-                    break;
-                case (int)ErrorCodes.HashError:
-                    PlaySource = $"{assetsImgPath}/ventana_error_hash.png";
-                    cacheVisible = true;
-                    break;
-            }
-
-            if (ErrorMessage != string.Empty)
-            {
-                aceptarVisible = true;
-                var errorLogFile = $"{Directory.GetCurrentDirectory()}{Path.DirectorySeparatorChar}error.log";
-                File.WriteAllText(errorLogFile, ErrorMessage);
-            }
         }
 
         public enum ErrorCodes : int
