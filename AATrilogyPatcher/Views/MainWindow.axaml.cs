@@ -6,6 +6,7 @@ using Avalonia.Markup.Xaml;
 using Avalonia.Input;
 using System.Diagnostics;
 using System.Net;
+using System.Runtime.InteropServices;
 
 namespace AATrilogyPatcher.Views
 {
@@ -45,7 +46,7 @@ namespace AATrilogyPatcher.Views
         private void CreditosClick(object sender, RoutedEventArgs e)
         {
             Sound.soundCtrl.PlaySound(AATrilogyPatcher.Resources.se001);
-            Process.Start("explorer", "https://github.com/Traducciones-Kurain/AATrilogy-2019-ESP/blob/master/README.md#cr%C3%A9ditos");
+            OpenBrowser("https://github.com/Traducciones-Kurain/AATrilogy-2019-ESP/blob/master/README.md#cr%C3%A9ditos");
         }
 
         private void DiscordClick(object sender, RoutedEventArgs e)
@@ -60,7 +61,7 @@ namespace AATrilogyPatcher.Views
                     string rawInviteUrl = "https://raw.githubusercontent.com/Traducciones-Kurain/AATrilogy-2019-ESP/master/invite.txt";
                     string discordInvite = client.DownloadString(rawInviteUrl);
 
-                    Process.Start("explorer", discordInvite);
+                    OpenBrowser(discordInvite);
                 }
             }
             catch {}
@@ -84,6 +85,46 @@ namespace AATrilogyPatcher.Views
         private void OnPointerEnter(object sender, PointerEventArgs e)
         {
             Sound.soundCtrl.PlaySound(AATrilogyPatcher.Resources.se000);
+        }
+
+        private void TkClick(object sender, RoutedEventArgs e)
+        {
+            OpenBrowser("https://twitter.com/Trad_Kurain");
+        }
+
+        private void TsClick(object sender, RoutedEventArgs e)
+        {
+            OpenBrowser("https://tradusquare.es/");
+        }
+
+        //https://brockallen.com/2016/09/24/process-start-for-urls-on-net-core/
+        public static void OpenBrowser(string url)
+        {
+            try
+            {
+                Process.Start(url);
+            }
+            catch
+            {
+                // hack because of this: https://github.com/dotnet/corefx/issues/10361
+                if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                {
+                    url = url.Replace("&", "^&");
+                    Process.Start(new ProcessStartInfo("cmd", $"/c start {url}") { CreateNoWindow = true });
+                }
+                else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+                {
+                    Process.Start("xdg-open", url);
+                }
+                else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+                {
+                    Process.Start("open", url);
+                }
+                else
+                {
+                    throw;
+                }
+            }
         }
     }
 }

@@ -148,6 +148,38 @@
                 Click="SalirClick"
                 PointerEnter="OnPointerEnter"/>
       </StackPanel>
+
+      <Grid Grid.Row="3">
+        <Grid.RowDefinitions>
+          <RowDefinition Height="*"/>
+          <RowDefinition Height="2*"/>
+        </Grid.RowDefinitions>
+
+        <Grid.Styles>
+          <Style Selector="Button.LogoButton">
+          </Style>
+          <Style Selector="Button.LogoButton:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Background" Value="Transparent" />
+          </Style>
+          <Style Selector="Button.LogoButton:pressed /template/ ContentPresenter">
+            <Setter Property="Background" Value="Transparent" />
+          </Style>
+        </Grid.Styles>
+
+        <Button Grid.Row="2" Classes="LogoButton"
+                RenderTransform="None" HorizontalAlignment="Left"
+                Cursor="Hand" Background="Transparent" BorderThickness="-5"
+                Click="TkClick">
+          <Image Source="/Assets/img/logoTk.png"/>
+        </Button>
+
+        <Button Grid.Row="2" Classes="LogoButton"
+                RenderTransform="None" HorizontalAlignment="Right"
+                Cursor="Hand" Background="Transparent" BorderThickness="-5"
+                Click="TsClick">
+          <Image Source="/Assets/img/logoTs.png"/>
+        </Button>
+      </Grid>
     </Grid>
   </Grid>
 
