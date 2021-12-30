@@ -100,12 +100,15 @@ namespace AATrilogyPatcher.Sound
 
         public static void PlaySound(byte[] resource)
         {
-            audioPlayback = new AudioPlayback();
+            if (WaveOut.DeviceCount > -1)
+            {
+                audioPlayback = new AudioPlayback();
 
-            var resourceStream = new MemoryStream(resource);
+                var resourceStream = new MemoryStream(resource);
 
-            audioPlayback.LoadStream(resourceStream);
-            audioPlayback.Play();
+                audioPlayback.LoadStream(resourceStream);
+                audioPlayback.Play();
+            }
         }
     }
 }
