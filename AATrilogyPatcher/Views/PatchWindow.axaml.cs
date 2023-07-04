@@ -32,10 +32,12 @@ namespace AATrilogyPatcher.Views
         {
             if (Application.Current.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime lifetime)
             {
+#if RELEASE_WINDOWS
                 if (Sound.soundCtrl.audioPlayback != null)
                 {
                     Sound.soundCtrl.audioPlayback.Dispose();
                 }
+#endif
 
                 lifetime.Shutdown();
             }
@@ -54,18 +56,24 @@ namespace AATrilogyPatcher.Views
 
         private void SiClick(object sender, RoutedEventArgs e)
         {
+#if RELEASE_WINDOWS
             Sound.soundCtrl.PlaySound(AATrilogyPatcher.Resources.se001);
+#endif
         }
 
         private void NoClick(object sender, RoutedEventArgs e)
         {
+#if RELEASE_WINDOWS
             Sound.soundCtrl.PlaySound(AATrilogyPatcher.Resources.se002);
+#endif
             IsVisible = false;
         }
 
         private void AceptarClick(object sender, RoutedEventArgs e)
         {
+#if RELEASE_WINDOWS
             Sound.soundCtrl.PlaySound(AATrilogyPatcher.Resources.se001);
+#endif
             if (!isUpdate)
                 this.IsVisible = false;
             else
@@ -74,12 +82,16 @@ namespace AATrilogyPatcher.Views
 
         private void OnPointerEnter(object sender, PointerEventArgs e)
         {
+#if RELEASE_WINDOWS
             Sound.soundCtrl.PlaySound(AATrilogyPatcher.Resources.se000);
+#endif
         }
 
         private void VerificarClick(object sender, RoutedEventArgs e)
         {
+#if RELEASE_WINDOWS
             Sound.soundCtrl.PlaySound(AATrilogyPatcher.Resources.se001);
+#endif
             Process.Start(new ProcessStartInfo("cmd", "/c start steam://validate/787480") { CreateNoWindow = true });
         }
     }

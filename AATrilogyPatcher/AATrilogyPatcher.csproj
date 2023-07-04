@@ -1,10 +1,16 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <OutputType>WinExe</OutputType>
-    <TargetFramework>net5.0-windows</TargetFramework>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net5.0</TargetFramework>
     <Nullable>enable</Nullable>
     <PackageIcon>icon.png</PackageIcon>
     <ApplicationIcon>Assets\img\icon.ico</ApplicationIcon>
+    <Configurations>Debug;Release;Release-Windows</Configurations>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release-Windows|AnyCPU'">
+	 <OutputType>WinExe</OutputType>
+	<TargetFramework>net5.0-windows</TargetFramework>
+    <Optimize>True</Optimize>
   </PropertyGroup>
   <ItemGroup>
     <AvaloniaResource Include="Assets\img\*.png" />
@@ -29,8 +35,8 @@
     <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="0.10.10" />
     <PackageReference Include="Avalonia.ReactiveUI" Version="0.10.10" />
     <PackageReference Include="Microsoft.Win32.Registry" Version="5.0.0" />
-    <PackageReference Include="NAudio" Version="2.0.1" />
-    <PackageReference Include="NAudio.Extras" Version="1.0.0" />
+	<PackageReference Include="NAudio" Version="2.0.1" Condition="'$(Configuration)|$(Platform)'=='Release-Windows|AnyCPU'" />
+	<PackageReference Include="NAudio.Extras" Version="1.0.0" Condition="'$(Configuration)|$(Platform)'=='Release-Windows|AnyCPU'" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Avalonia.GIF\AvaloniaGif\AvaloniaGif.csproj" />

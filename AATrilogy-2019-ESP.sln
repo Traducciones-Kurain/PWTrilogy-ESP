@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31205.134
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.33414.496
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AATrilogyPatcher", "AATrilogyPatcher\AATrilogyPatcher.csproj", "{95B840EB-EBDD-4414-B6F9-EDC962A1BC24}"
 EndProject
@@ -18,20 +18,27 @@ Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
+		Release-Windows|Any CPU = Release-Windows|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{95B840EB-EBDD-4414-B6F9-EDC962A1BC24}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{95B840EB-EBDD-4414-B6F9-EDC962A1BC24}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{95B840EB-EBDD-4414-B6F9-EDC962A1BC24}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{95B840EB-EBDD-4414-B6F9-EDC962A1BC24}.Release|Any CPU.Build.0 = Release|Any CPU
+		{95B840EB-EBDD-4414-B6F9-EDC962A1BC24}.Release-Windows|Any CPU.ActiveCfg = Release-Windows|Any CPU
+		{95B840EB-EBDD-4414-B6F9-EDC962A1BC24}.Release-Windows|Any CPU.Build.0 = Release-Windows|Any CPU
 		{E58DCEA1-07FE-495D-B716-2F54E2D70A8C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E58DCEA1-07FE-495D-B716-2F54E2D70A8C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E58DCEA1-07FE-495D-B716-2F54E2D70A8C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E58DCEA1-07FE-495D-B716-2F54E2D70A8C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E58DCEA1-07FE-495D-B716-2F54E2D70A8C}.Release-Windows|Any CPU.ActiveCfg = Release-Windows|Any CPU
+		{E58DCEA1-07FE-495D-B716-2F54E2D70A8C}.Release-Windows|Any CPU.Build.0 = Release-Windows|Any CPU
 		{10C07BA6-5426-41B5-983E-9C4271266370}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{10C07BA6-5426-41B5-983E-9C4271266370}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{10C07BA6-5426-41B5-983E-9C4271266370}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{10C07BA6-5426-41B5-983E-9C4271266370}.Release|Any CPU.Build.0 = Release|Any CPU
+		{10C07BA6-5426-41B5-983E-9C4271266370}.Release-Windows|Any CPU.ActiveCfg = Release-Windows|Any CPU
+		{10C07BA6-5426-41B5-983E-9C4271266370}.Release-Windows|Any CPU.Build.0 = Release-Windows|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

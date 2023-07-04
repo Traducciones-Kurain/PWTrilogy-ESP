@@ -39,19 +39,25 @@ namespace AATrilogyPatcher.Views
 
         private void ParchearClick(object sender, RoutedEventArgs e)
         {
+#if RELEASE_WINDOWS
             Sound.soundCtrl.PlaySound(AATrilogyPatcher.Resources.se001);
+#endif
             mainGrid.Children.Add(new PatchWindow());
         }
 
         private void CreditosClick(object sender, RoutedEventArgs e)
         {
+#if RELEASE_WINDOWS
             Sound.soundCtrl.PlaySound(AATrilogyPatcher.Resources.se001);
+#endif
             OpenBrowser("https://github.com/Traducciones-Kurain/AATrilogy-2019-ESP/blob/master/README.md#cr%C3%A9ditos");
         }
 
         private void DiscordClick(object sender, RoutedEventArgs e)
         {
+#if RELEASE_WINDOWS
             Sound.soundCtrl.PlaySound(AATrilogyPatcher.Resources.se001);
+#endif
 
             // lo hago de esta manera por si el invite cambia y el usuario no esta forzado a actualizar el parcheador
             try
@@ -69,14 +75,18 @@ namespace AATrilogyPatcher.Views
 
         private void SalirClick(object sender, RoutedEventArgs e)
         {
+#if RELEASE_WINDOWS
             Sound.soundCtrl.PlaySound(AATrilogyPatcher.Resources.se001);
+#endif
 
             if (Application.Current.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime lifetime)
             {
+#if RELEASE_WINDOWS
                 if (Sound.soundCtrl.audioPlayback != null)
                 {
                     Sound.soundCtrl.audioPlayback.Dispose();
                 }
+#endif
 
                 lifetime.Shutdown();
             }
@@ -84,7 +94,9 @@ namespace AATrilogyPatcher.Views
 
         private void OnPointerEnter(object sender, PointerEventArgs e)
         {
+#if RELEASE_WINDOWS
             Sound.soundCtrl.PlaySound(AATrilogyPatcher.Resources.se000);
+#endif
         }
 
         private void TkClick(object sender, RoutedEventArgs e)

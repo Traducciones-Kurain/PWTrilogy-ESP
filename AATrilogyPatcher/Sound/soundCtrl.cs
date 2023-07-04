@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if RELEASE_WINDOWS
+using System;
 using System.IO;
 using System.Windows;
 using NAudio.Extras;
@@ -112,3 +113,4 @@ namespace AATrilogyPatcher.Sound
         }
     }
 }
+#endif
