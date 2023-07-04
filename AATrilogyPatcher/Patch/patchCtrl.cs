@@ -43,9 +43,9 @@ namespace AATrilogyPatcher.Patch
                 if (files.ListExcludeFiles != null)
                     excludeFile = CheckExcludeFile(files.ListOriFiles[i]);
 
-                var oriFile = files.ListOriFiles[i];
-                var xdeltaFile = files.ListXdeltaFiles[i];
-                var outFile = xdeltaFile.Substring(0, xdeltaFile.Length - 7);
+                var oriFile = files.ListOriFiles[i].Replace('\\', Path.DirectorySeparatorChar);
+                var xdeltaFile = files.ListXdeltaFiles[i].Replace('\\', Path.DirectorySeparatorChar);
+                var outFile = xdeltaFile.Substring(0, xdeltaFile.Length - 7).Replace('\\', Path.DirectorySeparatorChar);
 
                 if (excludeFile)
                     if (!File.Exists(oriFile))

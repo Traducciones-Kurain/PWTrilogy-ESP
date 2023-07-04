@@ -7,6 +7,7 @@ using System.Reactive;
 using System.Threading.Tasks;
 using Microsoft.Win32;
 using ReactiveUI;
+using System.Runtime.InteropServices;
 
 namespace AATrilogyPatcher.ViewModels
 {
@@ -127,7 +128,51 @@ namespace AATrilogyPatcher.ViewModels
 
         void FindPath()
         {
-            if (SteamKeyExists())
+            bool success = false;
+
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            {
+                success = SteamKeyExists();
+            }
+            else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+            {
+                // basado en https://github.com/TraduSquare/Mara/blob/main/Mara.Lib/Common/Steam/SteamUtils.cs#L34
+                // y https://github.com/TraduSquare/Mara/blob/main/Mara.Lib/Common/Steam/Api/LibraryFolders.cs#L11
+                // TODO: revisar esto y hacer que sea un poco mas amable a la vista
+                var home = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+                var paths = new[] { ".steam", ".steam/steam", ".steam/root", ".local/share/Steam" };
+
+                var steamPaths = paths
+                    .Select(path => Path.Join(home, path))
+                    .Where(steamPath => Directory.Exists(Path.Join(steamPath, "appcache")));
+
+                if (steamPaths.Any())
+                {
+                    var libraryfolders = Path.Combine(steamPaths.First(), "config", "libraryfolders.vdf");
+
+                    if (File.Exists(libraryfolders))
+                    {
+                        var txt = File.ReadAllLines(libraryfolders);
+
+                        foreach (var s in txt)
+                        {
+                            if (s.Contains("\"path\""))
+                            {
+                                var library = s.Replace("		\"path\"		\"", "").Replace("\"", "");
+
+                                var tmpPath = Path.Combine(library, "steamapps", "common", "Phoenix Wright Ace Attorney Trilogy");
+                                if (Directory.Exists(tmpPath))
+                                {
+                                    steamGamePath = tmpPath;
+                                    success = true;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (success)
             {
                 steamPath = steamGamePath;
                 PlaySource = $"{assetsImgPath}/ventana_ok.png";
