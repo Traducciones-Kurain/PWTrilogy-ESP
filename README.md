@@ -8,19 +8,23 @@ Parcheador de Ace Attorney Trilogy (2019) al español. El idioma se inserta como
 ![imagen](https://user-images.githubusercontent.com/25833407/146673825-467c390c-1139-4958-a696-52602c2a3e2b.png)
 
 ### IMPORTANTE
-- El parcheador solamente funciona en Windows, ya que usa el registro de Windows para buscar el juego y por el uso de una biblioteca/librería exclusiva a Windows (NAudio). Se admiten pull requests de soporte para otros sistemas operativos.
+- La biblioteca/librería que reproduce sonidos en el parcheador es exclusiva a Windows, así que por eso el parcheador de Linux no tiene sonido.
 - Si utilizas Windows 7, se requiere el Service Pack 1 y la actualización KB3063858.
 - Una vez el parche esté aplicado, tienes que ir a los ajustes y cambiar el idioma desde ahí (será el último de la lista).
 - En el caso de querer mover la instalación del juego, se recomienda primero moverla con la herramienta de Steam, y a continuación comprobar que no haya quedado nada en la ubicación anterior. Si queda algo, se puede cortar y pegar.
 - Se recomienda hacer lo mismo si se quiere desinstalar el juego, primero desinstalarlo desde Steam y a continuación eliminar el directorio del juego de forma manual.
 
 ## Instrucciones
-1. [Descargar el parcheador de la última release.](https://github.com/Traducciones-Kurain/AATrilogy-2019-ESP/releases/latest/download/AATrilogyPatcher.exe)
-2. Presionar el botón "Parchear".
-3. Se abrirá una ventana que mostrara donde se va a aplicar el parche. Este directorio no puede ser modificado, ya que este proviene de donde Steam dice que ha instalado el juego.
-4. Darle al botón "Sí" y esperar a que se descargue y aplique el parche.<br/>
-4.1. Si se requiere, es posible descargar el parche por separado ([desde la última release](https://github.com/Traducciones-Kurain/AATrilogy-2019-ESP/releases/latest/download/Patch-Steam.zip)) y colocarlo en la misma ubicación que el parcheador. De esta manera se saltará la descarga y se aplicará directamente.
-5. Una vez aplicado, abrir el juego normalmente desde Steam. Si el juego aparece en otro idioma, cambiar a español en el menú de opciones.
+1. Este paso dependerá del sistema operativo que uses:
+    - Si utilizas **Windows**, [descarga "AATrilogyPatcher.exe" de la última release.](https://github.com/Traducciones-Kurain/AATrilogy-2019-ESP/releases/latest/download/AATrilogyPatcher.exe)
+    - Si utilizas **Linux**, [descarga "AATrilogyPatcher-linux" de la última release.](https://github.com/Traducciones-Kurain/AATrilogy-2019-ESP/releases/latest/download/AATrilogyPatcher-linux)<br/>
+_Si utilizas una **Steam Deck**, la opción que debes usar es la de Linux._
+2. Abrir el archivo descargado.
+3. Presionar el botón "Parchear".
+4. Se abrirá una ventana que mostrara donde se va a aplicar el parche. Este directorio no puede ser modificado, ya que este proviene de donde Steam dice que ha instalado el juego.
+5. Darle al botón "Sí" y esperar a que se descargue y aplique el parche.
+    - Si se requiere, es posible descargar el parche por separado ([desde la última release](https://github.com/Traducciones-Kurain/AATrilogy-2019-ESP/releases/latest/download/Patch-Steam.zip)) y colocarlo en la misma ubicación que el parcheador. De esta manera se saltará la descarga y se aplicará directamente.
+6. Una vez aplicado, abrir el juego normalmente desde Steam. Si el juego aparece en otro idioma, cambiar a español en el menú de opciones.
 
 ## Troubleshooting
 
