@@ -140,7 +140,8 @@ namespace AATrilogyPatcher.ViewModels
                 // y https://github.com/TraduSquare/Mara/blob/main/Mara.Lib/Common/Steam/Api/LibraryFolders.cs#L11
                 // TODO: revisar esto y hacer que sea un poco mas amable a la vista
                 var home = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-                var paths = new[] { ".steam", ".steam/steam", ".steam/root", ".local/share/Steam" };
+                var paths = new[] { ".steam", ".steam/steam", ".steam/root", ".local/share/Steam",
+                ".var/app/com.valvesoftware.Steam/.steam", ".var/app/com.valvesoftware.Steam/.steam/steam", ".var/app/com.valvesoftware.Steam/.steam/root"}; // flatpak
 
                 var steamPaths = paths
                     .Select(path => Path.Join(home, path))
