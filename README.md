@@ -37,12 +37,19 @@ Eso puede deberse a estos motivos:
 En cualquiera de los tres casos, la solución más sencilla es (re)instalar el juego desde Steam.
 
 ### Es posible que el parcheador falle.
-
 Puede suceder que el parcheador no sea capaz de escribir en el directorio donde se encuentra. Esto se puede solucionar de dos maneras:
 
 - Moviendo el ejecutable a un directorio donde tenga permisos, como puede ser el escritorio o la carpeta de Documentos.
 - Ejecutándolo como administrador (no recomendado, hacer eso solo si lo anterior no funcionó).
 
+### [Ubuntu] "No usable version of libssl was found" al ejecutar el parcheador
+Si te sale este error, y utilizas **Ubuntu**, debes instalar **libssl1.0-dev**. Para hacerlo, simplemente pon estos tres comandos en la terminal:
+```
+sudo add-apt-repository ppa:rael-gc/rvm
+sudo apt-get update
+sudo apt install libssl1.0-dev
+```
+_Fuente: https://stackoverflow.com/a/73066454_
 
 Si necesitas soporte más allá de lo que hay aquí escrito, escribe en el canal de ``#soporte-parches`` de nuestro [servidor de Discord](https://discord.gg/dtaFZcWmUA).
 
