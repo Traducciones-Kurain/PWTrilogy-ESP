@@ -1,0 +1,145 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:PWTrilogyPatcher.ViewModels"
+			 mc:Ignorable="d" d:DesignWidth="1258" d:DesignHeight="668"
+             x:Class="PWTrilogyPatcher.Views.PatcherView"
+			 x:DataType="vm:PatcherViewModel">
+	<Design.DataContext>
+		<!-- This only sets the DataContext for the previewer in an IDE,
+			to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
+		<vm:PatcherViewModel />
+	</Design.DataContext>
+
+	<Panel>
+		<Image Source="avares://PWTrilogyPatcher/Assets/background.png"/>
+		
+		<Rectangle Fill="Black" Opacity="0.5"/>
+
+		<Image Source="avares://PWTrilogyPatcher/Assets/window.png"
+			   Stretch="None"/>
+		
+		<Grid ShowGridLines="False"
+			  ColumnDefinitions="280,*,280"
+			  RowDefinitions="159,*,159">
+
+			<Grid ShowGridLines="False"
+				  Grid.Row="1"
+				  Grid.Column="1"
+				  RowDefinitions="*,Auto"
+				  IsVisible="{Binding !StartedPatch}">
+
+				<Grid ShowGridLines="False"
+					  Grid.Row="0"
+					  RowDefinitions="*,Auto,*">
+
+					<TextBlock Grid.Row="0"
+							   TextAlignment="Center"
+							   VerticalAlignment="Center"
+							   FontFamily="{StaticResource GameFont}"
+							   FontSize="40"
+							   LineHeight="48"
+							   Foreground="Black"
+							   Text="{Binding HeaderStatus}"/>
+
+					<Grid ShowGridLines="False"
+						  Grid.Row="1"
+						  ColumnDefinitions="*,Auto"
+						  Margin="6,0,6,0">
+
+						<TextBox Grid.Column="0"
+								 Watermark="{Binding PathWatermark}"
+								 Text="{Binding GamePath}"/>
+
+						<Button x:CompileBindings="False"
+								Grid.Column="1"
+								Content="..."
+								Command="{Binding OpenFolderCommand}"/>
+					</Grid>
+
+					<TextBlock Grid.Row="2"
+							   TextAlignment="Center"
+							   VerticalAlignment="Center"
+							   FontFamily="{StaticResource GameFont}"
+							   FontSize="22"
+							   LineHeight="28"
+							   Foreground="Black"
+							   Text="{Binding Status}"/>
+				</Grid>
+
+				<Grid ShowGridLines="False"
+					  Grid.Row="1"
+					  ColumnDefinitions="*,*"
+					  Margin="0,6,0,6">
+
+					<Button x:CompileBindings="False"
+							Grid.Column="0"
+							Classes="GameButton"
+							HorizontalAlignment="Center"
+							IsEnabled="{Binding CanPatch}"
+							Command="{Binding StartPatchCommand}">
+						<TextBlock TextAlignment="Center"
+								   VerticalAlignment="Center"
+								   FontFamily="{StaticResource GameFont}"
+								   FontSize="22"
+								   LineHeight="23"
+								   Foreground="{Binding CanPatch, Converter={StaticResource ButtonColorConverter}}"
+								   Text="Parchear"/>
+					</Button>
+
+					<Button x:CompileBindings="False"
+							Grid.Column="1"
+							Classes="GameButton"
+							HorizontalAlignment="Center"
+							Command="{Binding $parent[Window].DataContext.SetMainViewModel}">
+						<TextBlock TextAlignment="Center"
+								   VerticalAlignment="Center"
+								   FontFamily="{StaticResource GameFont}"
+								   FontSize="22"
+								   LineHeight="23"
+								   Foreground="White"
+								   Text="Volver"/>
+					</Button>
+
+				</Grid>
+
+			</Grid>
+
+			<Panel Grid.Row="1"
+				   Grid.Column="1"
+				   IsVisible="{Binding StartedPatch}">
+
+				<TextBlock TextAlignment="Center"
+						   VerticalAlignment="Center"
+						   FontFamily="{StaticResource GameFont}"
+						   FontSize="24"
+						   LineHeight="32"
+						   Foreground="{Binding CanPatch, Converter={StaticResource TextColorConverter}}"
+						   Text="{Binding Status}"/>
+				
+				<Grid ShowGridLines="False"
+					  RowDefinitions="*,Auto">
+
+					<Button x:CompileBindings="False"
+							Grid.Row="1"
+							Margin="0,6,0,6"
+							Classes="GameButton"
+							HorizontalAlignment="Center"
+							IsVisible="{Binding CanPatch}"
+							Command="{Binding $parent[Window].DataContext.SetMainViewModel}">
+						<TextBlock TextAlignment="Center"
+								   VerticalAlignment="Center"
+								   FontFamily="{StaticResource GameFont}"
+								   FontSize="22"
+								   LineHeight="23"
+								   Foreground="White"
+								   Text="Volver"/>
+					</Button>
+				</Grid>
+				
+			</Panel>
+			
+		</Grid>
+	</Panel>
+</UserControl>

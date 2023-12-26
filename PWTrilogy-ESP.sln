@@ -1,0 +1,44 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.34031.279
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PWTrilogyPatcher", "PWTrilogyPatcher\PWTrilogyPatcher.csproj", "{74136D03-B518-4BA8-9087-868E9F12BB12}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PWTrilogyPatcher.Desktop", "PWTrilogyPatcher.Desktop\PWTrilogyPatcher.Desktop.csproj", "{BBED3297-5E37-4217-90F9-DCA5F8BE1F28}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mara.Lib", "Mara\Mara.Lib\Mara.Lib.csproj", "{13C56B10-CC1E-4F13-A2B3-755603E4ABAC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+		Release-Windows|Any CPU = Release-Windows|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{74136D03-B518-4BA8-9087-868E9F12BB12}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{74136D03-B518-4BA8-9087-868E9F12BB12}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{74136D03-B518-4BA8-9087-868E9F12BB12}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{74136D03-B518-4BA8-9087-868E9F12BB12}.Release|Any CPU.Build.0 = Release|Any CPU
+		{74136D03-B518-4BA8-9087-868E9F12BB12}.Release-Windows|Any CPU.ActiveCfg = Release|Any CPU
+		{74136D03-B518-4BA8-9087-868E9F12BB12}.Release-Windows|Any CPU.Build.0 = Release|Any CPU
+		{BBED3297-5E37-4217-90F9-DCA5F8BE1F28}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BBED3297-5E37-4217-90F9-DCA5F8BE1F28}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BBED3297-5E37-4217-90F9-DCA5F8BE1F28}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BBED3297-5E37-4217-90F9-DCA5F8BE1F28}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BBED3297-5E37-4217-90F9-DCA5F8BE1F28}.Release-Windows|Any CPU.ActiveCfg = Release|Any CPU
+		{BBED3297-5E37-4217-90F9-DCA5F8BE1F28}.Release-Windows|Any CPU.Build.0 = Release|Any CPU
+		{13C56B10-CC1E-4F13-A2B3-755603E4ABAC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{13C56B10-CC1E-4F13-A2B3-755603E4ABAC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{13C56B10-CC1E-4F13-A2B3-755603E4ABAC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{13C56B10-CC1E-4F13-A2B3-755603E4ABAC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{13C56B10-CC1E-4F13-A2B3-755603E4ABAC}.Release-Windows|Any CPU.ActiveCfg = Release-Windows|Any CPU
+		{13C56B10-CC1E-4F13-A2B3-755603E4ABAC}.Release-Windows|Any CPU.Build.0 = Release-Windows|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {494324E3-8C34-4882-81E3-B7B6BFA8B6DA}
+	EndGlobalSection
+EndGlobal

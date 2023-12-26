@@ -1,0 +1,55 @@
+<Application xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:local="using:PWTrilogyPatcher"
+			 xmlns:conv="using:PWTrilogyPatcher.Converters"
+             x:Class="PWTrilogyPatcher.App"
+             RequestedThemeVariant="Light">
+             <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
+
+	<Application.DataTemplates>
+		<local:ViewLocator/>
+	</Application.DataTemplates>
+
+	<Application.Styles>
+        <FluentTheme />
+		
+		<Style Selector="Button.GameButton">
+			<Setter Property="Width" Value="212"/>
+			<Setter Property="Height" Value="50"/>
+
+			<Setter Property="Background">
+				<Setter.Value>
+					<ImageBrush Source="avares://PWTrilogyPatcher/Assets/button.png"/>
+				</Setter.Value>
+			</Setter>
+		</Style>
+		<Style Selector="Button.GameButton:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+			<Setter Property="Background">
+				<Setter.Value>
+					<ImageBrush Source="avares://PWTrilogyPatcher/Assets/button_hover.png"/>
+				</Setter.Value>
+			</Setter>
+		</Style>
+		<Style Selector="Button.GameButton:pressed /template/ ContentPresenter">
+			<Setter Property="Background">
+				<Setter.Value>
+					<ImageBrush Source="avares://PWTrilogyPatcher/Assets/button_click.png" />
+				</Setter.Value>
+			</Setter>
+		</Style>
+		<Style Selector="Button.GameButton:disabled /template/ ContentPresenter">
+			<Setter Property="Background">
+				<Setter.Value>
+					<ImageBrush Source="avares://PWTrilogyPatcher/Assets/button_disabled.png" />
+				</Setter.Value>
+			</Setter>
+		</Style>
+		
+    </Application.Styles>
+
+	<Application.Resources>
+		<FontFamily x:Key="GameFont">avares://PWTrilogyPatcher/Assets/FOT-ModeMinALargeStd-R.otf#FOT-ModeMinALarge Std</FontFamily>
+		<conv:ButtonColorConverter x:Key="ButtonColorConverter"/>
+		<conv:TextColorConverter x:Key="TextColorConverter"/>
+	</Application.Resources>
+</Application>

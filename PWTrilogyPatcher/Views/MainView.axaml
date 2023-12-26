@@ -1,0 +1,125 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:PWTrilogyPatcher.ViewModels"
+			 xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             mc:Ignorable="d" d:DesignWidth="1258" d:DesignHeight="668"
+             x:Class="PWTrilogyPatcher.Views.MainView"
+             x:DataType="vm:MainViewModel">
+  <Design.DataContext>
+    <!-- This only sets the DataContext for the previewer in an IDE,
+         to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
+    <vm:MainViewModel />
+  </Design.DataContext>
+
+	<Panel>
+		<Image Source="avares://PWTrilogyPatcher/Assets/background.png"/>
+
+		<Grid ShowGridLines="False"
+			  RowDefinitions="518,*,100">
+
+			<StackPanel Grid.Row="1"
+						Orientation="Horizontal"
+						HorizontalAlignment="Center">
+
+				<Button x:CompileBindings="False"
+						Margin="0,0,23,0"
+						Classes="GameButton"
+						HorizontalAlignment="Center"
+						Command="{Binding $parent[Window].DataContext.SetPatcherViewModel}">
+					<TextBlock TextAlignment="Center"
+							   VerticalAlignment="Center"
+							   FontFamily="{StaticResource GameFont}"
+							   FontSize="22"
+							   LineHeight="23"
+							   Foreground="White"
+							   Text="Parchear"/>
+				</Button>
+
+				<Button x:CompileBindings="False"
+						Margin="23,0,23,0"
+						Classes="GameButton"
+						HorizontalAlignment="Center"
+						Command="{Binding CreditsButtonCommand}">
+					<TextBlock TextAlignment="Center"
+							   VerticalAlignment="Center"
+							   FontFamily="{StaticResource GameFont}"
+							   FontSize="22"
+							   LineHeight="23"
+							   Foreground="White"
+							   Text="Créditos"/>
+				</Button>
+
+				<Button x:CompileBindings="False"
+						Margin="23,0,23,0"
+						Classes="GameButton"
+						HorizontalAlignment="Center"
+						Command="{Binding DiscordButtonCommand}">
+					<TextBlock TextAlignment="Center"
+							   VerticalAlignment="Center"
+							   FontFamily="{StaticResource GameFont}"
+							   FontSize="22"
+							   LineHeight="23"
+							   Foreground="White"
+							   Text="Discord"/>
+				</Button>
+
+				<Button x:CompileBindings="False"
+						Margin="23,0,0,0"
+						Classes="GameButton"
+						HorizontalAlignment="Center"
+						Command="{Binding CloseButtonCommand}">
+					<TextBlock TextAlignment="Center"
+							   VerticalAlignment="Center"
+							   FontFamily="{StaticResource GameFont}"
+							   FontSize="22"
+							   LineHeight="23"
+							   Foreground="White"
+							   Text="Salir"/>
+				</Button>
+
+			</StackPanel>
+
+			<Grid ShowGridLines="False"
+				  Grid.Row="2"
+				  RowDefinitions="*,2*">
+				<Grid.Styles>
+					<Style Selector="Button.LogoButton">
+					</Style>
+					<Style Selector="Button.LogoButton:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+						<Setter Property="Background" Value="Transparent" />
+					</Style>
+					<Style Selector="Button.LogoButton:pressed /template/ ContentPresenter">
+						<Setter Property="Background" Value="Transparent" />
+					</Style>
+				</Grid.Styles>
+
+				<Button x:CompileBindings="False"
+						Grid.Row="2"
+						Classes="LogoButton"
+						RenderTransform="None"
+						Cursor="Hand"
+						HorizontalAlignment="Left"
+						Background="Transparent"
+						BorderThickness="-5"
+						Command="{Binding TKButtonCommand}">
+					<Image Source="avares://PWTrilogyPatcher/Assets/logo_tk.png"/>
+				</Button>
+
+				<Button x:CompileBindings="False"
+						Grid.Row="2"
+						Classes="LogoButton"
+						HorizontalAlignment="Right"
+						RenderTransform="None"
+						Cursor="Hand"
+						Background="Transparent"
+						BorderThickness="-5"
+						Command="{Binding TSButtonCommand}">
+					<Image Source="avares://PWTrilogyPatcher/Assets/logo_ts.png"/>
+				</Button>
+			</Grid>
+
+		</Grid>
+	</Panel>
+</UserControl>
