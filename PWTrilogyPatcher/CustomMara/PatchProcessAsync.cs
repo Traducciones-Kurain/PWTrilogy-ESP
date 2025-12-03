@@ -62,32 +62,49 @@ public class PatchProcessAsync
 
     private (int, string) ApplyXdelta(string file, string xdelta, string result, string md5)
     {
-        var oriFile = $"{oriFolder}{Path.DirectorySeparatorChar}{file}";
+        var originalFile = $"{oriFolder}{Path.DirectorySeparatorChar}{file}";
         var xdeltaFile = $"{tempFolder}{Path.DirectorySeparatorChar}{xdelta}";
         var outFile = $"{oriFolder}{Path.DirectorySeparatorChar}{result}";
 
         bool isNewFile = file != result;
 
-        string oriPath = oriFile + "_ori";
-        string md5File = File.Exists(oriPath) ? oriPath : oriFile;
+        string oriPath = originalFile + "_ori";
+        string fileToPatch;
 
-        if (Md5.CalculateMd5(md5File) != md5)
-            return (1, $"The file \"{oriFile}\" is not equal than the original file.");
-
-        if (!File.Exists(oriPath))
+        // Check the original file first
+        if (Md5.CalculateMd5(originalFile) == md5)
         {
-            if (isNewFile)
+            fileToPatch = originalFile;
+        }
+        else
+        {
+            // If the original file doesn't match, check the _ori file
+            if (File.Exists(oriPath))
             {
-                File.Copy(oriFile, oriPath);
+                if (Md5.CalculateMd5(oriPath) == md5)
+                {
+                    fileToPatch = oriPath;
+                }
+                else
+                {
+                    return (1, $"The file \"{originalFile}\" (and it's _ori variant) is not equal than the original file.");
+                }
             }
             else
             {
-                File.Move(oriFile, oriPath);
+                return (1, $"The file \"{originalFile}\" is not equal than the original file.");
             }
         }
 
-        if (!isNewFile && File.Exists(oriFile))
-            File.Delete(oriFile);
+        if (fileToPatch != oriPath)
+        {
+            File.Delete(oriPath);
+
+            if (!File.Exists(oriPath))
+            {
+                File.Copy(fileToPatch, oriPath);
+            }
+        }
 
         var outdir = Path.GetDirectoryName(outFile);
         if (!string.IsNullOrWhiteSpace(outdir) && !Directory.Exists(outdir))
